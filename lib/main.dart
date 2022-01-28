@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personal_notepad/screens/custom_clipper_screen.dart';
-import 'package:personal_notepad/screens/home_screen.dart';
+import 'package:personal_notepad/screens/drawing_screen.dart';
 import 'package:personal_notepad/screens/snapshot_screen.dart';
 
 void main() {
@@ -14,11 +14,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const CustomClipperScreen(),
+      home: const DrawingScreen(),
     );
   }
 }

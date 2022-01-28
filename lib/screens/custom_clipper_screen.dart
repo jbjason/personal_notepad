@@ -77,6 +77,27 @@ class MyClipper extends CustomClipper<Path> {
     //   Offset(0, size.height * .30),
     // ];
     // path.addPolygon(points, true);
+
+    // // curve to upper side
+    // path.lineTo(0, size.height-100);
+    // path.quadraticBezierTo(size.width/2, size.height,size.width, size.height);
+    // path.lineTo(size.width, size.height);
+    // path.lineTo(size.width, 0);
+    // path.close();
+
+    // // curve to belower side
+    // path.lineTo(0, size.height);
+    // path.quadraticBezierTo(size.width/2, size.height,size.width, size.height-100);
+    // path.lineTo(size.width, 0);
+    // path.close();
+
+    // // Actual wave
+    // path.lineTo(0, size.height - 100);
+    // path.quadraticBezierTo(
+    //     size.width / 4, size.height / 2, size.width / 2, size.height - 100);
+    // path.quadraticBezierTo(size.width - (size.width / 4), size.height - 50,
+    //     size.width, size.height - 100);
+
     return path;
   }
 
