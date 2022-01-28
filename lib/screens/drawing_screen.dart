@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
-import 'package:personal_notepad/screens/testing_scree.dart';
 import 'package:screenshot/screenshot.dart';
 
 class DrawingScreen extends StatefulWidget {
@@ -81,9 +80,9 @@ class _DrawingScreenState extends State<DrawingScreen> {
                                   setState(() => _isLoading = true);
                                   final image = await controller
                                       .captureFromWidget(drawingCanvas(size));
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) =>
-                                          TestingScreen(image: image)));
+                                  // Navigator.of(context).push(MaterialPageRoute(
+                                  //     builder: (_) =>
+                                  //         TestingScreen(image: image)));
                                 },
                               ),
                         const SizedBox(width: 20),
