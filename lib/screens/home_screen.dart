@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personal_notepad/widgets/home_widgets/appBarDelegate.dart';
+import 'package:personal_notepad/widgets/home_widgets/bodyTopParts.dart';
 import 'package:personal_notepad/widgets/home_widgets/user_notes.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -16,6 +17,9 @@ class HomeScreen extends StatelessWidget {
             pinned: true,
             delegate: AppBarDelegate(expandedHeight: size.height * .36),
           ),
+          SliverToBoxAdapter(child: BodyTopParts()),
+          SliverToBoxAdapter(child: Placeholder()),
+          SliverToBoxAdapter(child: Placeholder()),
           SliverToBoxAdapter(child: UserNotes()),
         ],
       ),
