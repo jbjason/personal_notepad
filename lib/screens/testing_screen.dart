@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
-class TestingScreen extends StatelessWidget {
+class TestingScreen extends StatefulWidget {
 //  final Uint8List image;
   const TestingScreen({Key? key}) : super(key: key);
+  @override
+  State<TestingScreen> createState() => _TestingScreenState();
+}
 
+class _TestingScreenState extends State<TestingScreen> {
+  Color boxColor = Colors.grey;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,12 +16,29 @@ class TestingScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             NeumorphismButtonBlack(),
             SizedBox(height: 20),
             NeumorphismButtonWhite(),
             SizedBox(height: 20),
             BeautifulButton1(),
+            // splash Button
+            InkWell(
+              onTap: () {
+                setState(() => boxColor = Colors.pink);
+              },
+              onDoubleTap: () {
+                setState(() => boxColor = Colors.yellow);
+              },
+              onLongPress: () {
+                setState(() => boxColor = Colors.red);
+              },
+              child: Ink(
+                height: 200,
+                width: 200,
+                child: const Center(child: Text('Press')),
+              ),
+            ),
           ],
         ),
       ),
