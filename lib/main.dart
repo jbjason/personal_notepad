@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:personal_notepad/screens/custom_clipper_screen.dart';
-import 'package:personal_notepad/screens/drawing_screen.dart';
-import 'package:personal_notepad/screens/snapshot_screen.dart';
+import 'package:personal_notepad/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const DrawingScreen(),
+      home: const HomeScreen(),
     );
   }
 }

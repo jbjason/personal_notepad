@@ -8,7 +8,7 @@ class TestingScreen extends StatefulWidget {
 }
 
 class _TestingScreenState extends State<TestingScreen> {
-  Color boxColor = Colors.grey;
+  Color boxColor = Colors.indigo;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,18 +22,20 @@ class _TestingScreenState extends State<TestingScreen> {
             NeumorphismButtonWhite(),
             SizedBox(height: 20),
             BeautifulButton1(),
+            SizedBox(height: 20),
             // splash Button
             InkWell(
               onTap: () {
-                setState(() => boxColor = Colors.pink);
+                setState(() => boxColor = Colors.blue);
               },
               onDoubleTap: () {
-                setState(() => boxColor = Colors.yellow);
+                setState(() => boxColor = Colors.brown);
               },
               onLongPress: () {
                 setState(() => boxColor = Colors.red);
               },
               child: Ink(
+                color: boxColor,
                 height: 200,
                 width: 200,
                 child: const Center(child: Text('Press')),
