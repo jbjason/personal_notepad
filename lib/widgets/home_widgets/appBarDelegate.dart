@@ -7,16 +7,53 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.grey[900],
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(150))),
-      child: Stack(
-        children: [
-          _basicAppBar(shrinkOffset),
-          _getCustomAppBar(shrinkOffset),
-        ],
-      ),
+    return Stack(
+      children: [
+         Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[600],
+            //  color: Colors.white,
+              borderRadius:
+                  BorderRadius.only(bottomRight: Radius.circular(100)),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[700],
+            //  color: Colors.white,
+              borderRadius:
+                  BorderRadius.only(bottomRight: Radius.circular(140)),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[800],
+             // color: Colors.white,
+              borderRadius:
+                  BorderRadius.only(bottomRight: Radius.circular(180)),
+            ),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.grey[900],
+              borderRadius:
+                  BorderRadius.only(bottomRight: Radius.circular(220))),
+          child: Stack(
+            children: [
+              // shirken appbar
+              _basicAppBar(shrinkOffset),
+              // CustomAppbar, middle Container with "My notes" Title
+              _getCustomAppBar(shrinkOffset),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
