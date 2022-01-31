@@ -8,7 +8,9 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: Colors.grey[900],
+      decoration: BoxDecoration(
+          color: Colors.grey[900],
+          borderRadius: BorderRadius.only(bottomRight: Radius.circular(40))),
       child: Stack(
         children: [
           _basicAppBar(shrinkOffset),

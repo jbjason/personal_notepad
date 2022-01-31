@@ -18,9 +18,9 @@ class HomeScreen extends StatelessWidget {
             delegate: AppBarDelegate(expandedHeight: size.height * .36),
           ),
           SliverToBoxAdapter(child: BodyTopParts()),
+          UserNotes(),
           SliverToBoxAdapter(child: Placeholder()),
           SliverToBoxAdapter(child: Placeholder()),
-          SliverToBoxAdapter(child: UserNotes()),
         ],
       ),
     );
