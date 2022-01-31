@@ -10,7 +10,7 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
     return Container(
       decoration: BoxDecoration(
           color: Colors.grey[900],
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(40))),
+          borderRadius: BorderRadius.only(bottomRight: Radius.circular(150))),
       child: Stack(
         children: [
           _basicAppBar(shrinkOffset),
