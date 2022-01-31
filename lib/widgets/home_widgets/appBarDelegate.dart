@@ -9,41 +9,56 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Stack(
       children: [
-         Positioned.fill(
+        // shadow Container
+        Positioned.fill(
           child: Container(
             decoration: BoxDecoration(
               color: Colors.grey[600],
-            //  color: Colors.white,
+              //  color: Colors.white,
               borderRadius:
                   BorderRadius.only(bottomRight: Radius.circular(100)),
             ),
           ),
         ),
+        // shadow Container
         Positioned.fill(
           child: Container(
             decoration: BoxDecoration(
               color: Colors.grey[700],
-            //  color: Colors.white,
+              //  color: Colors.white,
               borderRadius:
                   BorderRadius.only(bottomRight: Radius.circular(140)),
             ),
           ),
         ),
+        // shadow Container
         Positioned.fill(
           child: Container(
             decoration: BoxDecoration(
               color: Colors.grey[800],
-             // color: Colors.white,
+              //  color: Colors.white,
               borderRadius:
                   BorderRadius.only(bottomRight: Radius.circular(180)),
             ),
           ),
         ),
+        // shadow Container
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[850],
+              // color: Colors.white,
+              borderRadius:
+                  BorderRadius.only(bottomRight: Radius.circular(220)),
+            ),
+          ),
+        ),
+        // Main & Actual AppbarContainer
         Container(
           decoration: BoxDecoration(
               color: Colors.grey[900],
               borderRadius:
-                  BorderRadius.only(bottomRight: Radius.circular(220))),
+                  BorderRadius.only(bottomRight: Radius.circular(260))),
           child: Stack(
             children: [
               // shirken appbar
