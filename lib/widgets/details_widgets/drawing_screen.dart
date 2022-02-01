@@ -1,9 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
 import 'package:personal_notepad/widgets/buttonBlack.dart';
+import 'package:personal_notepad/widgets/details_widgets/allowPaint_button.dart';
 
 class DrawingScreen extends StatefulWidget {
   const DrawingScreen({Key? key}) : super(key: key);
@@ -54,26 +54,11 @@ class _DrawingScreenState extends State<DrawingScreen> {
                 const SizedBox(height: 10),
                 // button & constract buttons
                 buttonAndStroke(size),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 // Allow Paint Button
                 InkWell(
                   onTap: () => setState(() => _isPaint = !_isPaint),
-                  child: NeumorphismButtonBlack(
-                    boxShape: BoxShape.circle,
-                    padding: 50.0,
-                    text: !_isPaint
-                        ? Icon(Icons.format_paint,
-                            color: Colors.white, size: 30)
-                        : Text(
-                            'Text',
-                            style: GoogleFonts.lakkiReddy(
-                              textStyle: TextStyle(
-                                color: Colors.white,
-                                fontStyle: FontStyle.italic,
-                              ),
-                            ),
-                          ),
-                  ),
+                  child: AllowPaintAndTextButton(isPaint: _isPaint),
                 ),
               ],
             ),
@@ -124,8 +109,9 @@ class _DrawingScreenState extends State<DrawingScreen> {
             painter: MyCustomPainter(points: initialPoints, isEnd: isEnd),
             // textFormField
             child: DescriptionTextFormField(
-                descriptionController: _descriptionController,
-                isPaint: _isPaint),
+              descriptionController: _descriptionController,
+              isPaint: _isPaint,
+            ),
           ),
         ),
       ),
@@ -154,7 +140,7 @@ class _DrawingScreenState extends State<DrawingScreen> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () => initialPoints.clear(),
+                  onPressed: () => setState(() => initialPoints.clear()),
                   icon: Icon(Icons.layers_clear, color: selectedColor),
                 ),
               ],
@@ -260,7 +246,7 @@ class DescriptionTextFormField extends StatelessWidget {
             borderSide: BorderSide(color: Colors.transparent),
           ),
           filled: true,
-          fillColor: Colors.grey[900],
+          fillColor: Colors.transparent,
         ),
         style: TextStyle(color: Colors.white, fontSize: 20),
         keyboardType: TextInputType.text,
