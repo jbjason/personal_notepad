@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
-import 'package:screenshot/screenshot.dart';
 
 class DrawingScreen extends StatefulWidget {
   const DrawingScreen({Key? key}) : super(key: key);
@@ -15,14 +14,22 @@ class _DrawingScreenState extends State<DrawingScreen> {
   bool isEnd = false, _isPaint = false;
   late Color selectedColor;
   late double strokeWidth;
-  final controller = ScreenshotController();
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     // initial color & selected color object
-    selectedColor = Colors.black;
+    selectedColor = Colors.white;
     strokeWidth = 4.0;
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
   }
 
   @override
@@ -33,29 +40,31 @@ class _DrawingScreenState extends State<DrawingScreen> {
         backgroundColor: Colors.grey[850],
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+            padding: const EdgeInsets.all(20),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(),
+                // Title Text
+                TitleTextFor(),
+                TtileTextFormField(titleController: _titleController),
+                // Description Text
+                const SizedBox(height: 15),
+                DescriptionTextFor(),
                 // drawing canvas & TextField
                 Center(child: drawingCanvas(size)),
                 const SizedBox(height: 20),
+                // Paint button
                 Container(
                   color: Colors.white,
                   child: TextButton.icon(
-                    onPressed: () {
-                      setState(() => _isPaint = !_isPaint);
-                    },
+                    onPressed: () => setState(() => _isPaint = !_isPaint),
                     icon: Icon(Icons.format_paint_sharp),
-                    label: Text('Paint'),
+                    label: Text(_isPaint ? 'Write text' : 'Paint'),
                   ),
                 ),
                 const SizedBox(height: 20),
                 // button & constract buttons
                 buttonAndStroke(size),
-                const SizedBox(height: 20),
-                // Save Button
-                SaveButton(),
               ],
             ),
           ),
@@ -66,53 +75,50 @@ class _DrawingScreenState extends State<DrawingScreen> {
 
   Widget drawingCanvas(Size size) {
     return Container(
-      height: size.height * .7,
+      height: size.height * .65,
       width: size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        color: Colors.grey[200],
+        border: Border.all(color: Colors.grey[900]!, width: 5),
       ),
       child: GestureDetector(
         onPanDown: (data) {
-         !_isPaint ?null:  setState(
-            () => initialPoints.add(DrawingArea(
-              point: data.localPosition,
-              areaPaint: Paint()
-                ..color = selectedColor
-                ..strokeWidth = strokeWidth
-                ..isAntiAlias = true
-                ..strokeCap = StrokeCap.round,
-            )),
-          );
+          !_isPaint
+              ? null
+              : setState(
+                  () => initialPoints.add(DrawingArea(
+                    point: data.localPosition,
+                    areaPaint: Paint()
+                      ..color = selectedColor
+                      ..strokeWidth = strokeWidth
+                      ..isAntiAlias = true
+                      ..strokeCap = StrokeCap.round,
+                  )),
+                );
         },
         onPanUpdate: (data) {
-         !_isPaint ?null: setState(
-            () => initialPoints.add(DrawingArea(
-              point: data.localPosition,
-              areaPaint: Paint()
-                ..color = selectedColor
-                ..strokeWidth = strokeWidth
-                ..isAntiAlias = true
-                ..strokeCap = StrokeCap.round,
-            )),
-          );
+          !_isPaint
+              ? null
+              : setState(
+                  () => initialPoints.add(DrawingArea(
+                    point: data.localPosition,
+                    areaPaint: Paint()
+                      ..color = selectedColor
+                      ..strokeWidth = strokeWidth
+                      ..isAntiAlias = true
+                      ..strokeCap = StrokeCap.round,
+                  )),
+                );
         },
-        onPanEnd: (_) {
-          setState(() => isEnd = true);
-        },
+        onPanEnd: (_) => setState(() => isEnd = true),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: CustomPaint(
             painter: MyCustomPainter(points: initialPoints, isEnd: isEnd),
-            child: TextFormField(
-              initialValue: '',
-              decoration: const InputDecoration(
-                labelText: 'Description',
-                hintText: 'Write here.......',
-              ),
-              textInputAction: TextInputAction.done,
-              maxLines: 3,
-            ),
+            // textFormField
+            child: DescriptionTextFormField(
+                descriptionController: _descriptionController,
+                isPaint: _isPaint),
           ),
         ),
       ),
@@ -179,30 +185,116 @@ class _DrawingScreenState extends State<DrawingScreen> {
   }
 }
 
-class SaveButton extends StatelessWidget {
-  const SaveButton({
+class DescriptionTextFor extends StatelessWidget {
+  const DescriptionTextFor({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          const Spacer(),
-          ElevatedButton.icon(
-            icon: Icon(Icons.save),
-            label: Text('   Save    '),
-            onPressed: () async {
-              // final image = await controller
-              //     .captureFromWidget(drawingCanvas(size));
-              // Navigator.of(context).push(MaterialPageRoute(
-              //     builder: (_) =>
-              //         TestingScreen(image: image)));
-            },
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Text(
+        'Description',
+        style: TextStyle(color: Colors.white, fontSize: 20),
+      ),
+    );
+  }
+}
+
+class TitleTextFor extends StatelessWidget {
+  const TitleTextFor({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Text('Title',
+          style: TextStyle(color: Colors.white, fontSize: 20)),
+    );
+  }
+}
+
+class TtileTextFormField extends StatelessWidget {
+  const TtileTextFormField({
+    Key? key,
+    required TextEditingController titleController,
+  })  : _titleController = titleController,
+        super(key: key);
+
+  final TextEditingController _titleController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _titleController,
+      cursorColor: Colors.red,
+      cursorHeight: 10,
+      cursorWidth: 2,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.title_sharp, color: Colors.grey[700]),
+        hintText: 'Write here',
+        hintStyle: TextStyle(color: Colors.white54),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        filled: true,
+        fillColor: Colors.grey[900],
+      ),
+      style: TextStyle(color: Colors.white54, fontSize: 18),
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.done,
+    );
+  }
+}
+
+class DescriptionTextFormField extends StatelessWidget {
+  const DescriptionTextFormField({
+    Key? key,
+    required TextEditingController descriptionController,
+    required bool isPaint,
+  })  : _descriptionController = descriptionController,
+        _isPaint = isPaint,
+        super(key: key);
+
+  final TextEditingController _descriptionController;
+  final bool _isPaint;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      child: TextFormField(
+        controller: _descriptionController,
+        readOnly: _isPaint ? true : false,
+        cursorColor: Colors.red,
+        cursorHeight: 15,
+        cursorWidth: 4,
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.description, color: Colors.grey[700]),
+          hintText: 'Write here',
+          hintStyle: TextStyle(color: Colors.white54),
+          focusColor: Colors.red,
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
-          const SizedBox(width: 20),
-        ],
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent),
+          ),
+          filled: true,
+          fillColor: _isPaint ? Colors.grey[850] : Colors.grey[900],
+        ),
+        style: TextStyle(color: Colors.white, fontSize: 20),
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.done,
+        maxLines: _isPaint ? 2 : 14,
       ),
     );
   }
@@ -215,7 +307,7 @@ class MyCustomPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint background = Paint()..color = Colors.white;
+    Paint background = Paint()..color = Colors.grey[900]!;
     Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
     canvas.drawRect(rect, background);
 

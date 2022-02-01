@@ -10,7 +10,6 @@ class DescriptionScreen extends StatefulWidget {
 class _DescriptionScreenState extends State<DescriptionScreen> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[850],
       appBar: AppBar(
