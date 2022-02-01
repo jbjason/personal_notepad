@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:personal_notepad/widgets/buttonBlack.dart';
+import 'package:personal_notepad/widgets/buttonWhite.dart';
 
 class TestingScreen extends StatefulWidget {
 //  final Uint8List image;
@@ -12,15 +14,19 @@ class _TestingScreenState extends State<TestingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300], // Colors.grey[900]
+      backgroundColor: Colors.grey[900],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            NeumorphismButtonBlack(),
-            SizedBox(height: 20),
-            NeumorphismButtonWhite(),
-            SizedBox(height: 20),
+            NeumorphismButtonBlack(
+              text: Text('Hello'),
+              padding: 50.0,
+              boxShape: BoxShape.rectangle,
+            ),
+            SizedBox(height: 40),
+            NeumorphismButtonWhite(text: Text('Hello')),
+            SizedBox(height: 40),
             BeautifulButton1(),
             SizedBox(height: 20),
             // splash Button
@@ -43,69 +49,6 @@ class _TestingScreenState extends State<TestingScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class NeumorphismButtonBlack extends StatelessWidget {
-  const NeumorphismButtonBlack({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: const Text('Hello'),
-      padding: const EdgeInsets.all(50),
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          const BoxShadow(
-            color: Colors.black,
-            offset: Offset(4, 4),
-            blurRadius: 15,
-            spreadRadius: 5,
-          ),
-          BoxShadow(
-            color: Colors.grey.shade800,
-            offset: const Offset(-4, -4),
-            blurRadius: 15,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class NeumorphismButtonWhite extends StatelessWidget {
-  const NeumorphismButtonWhite({
-    Key? key,
-  }) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: const Text('Hello'),
-      padding: const EdgeInsets.all(50),
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade500,
-            offset: const Offset(4, 4),
-            blurRadius: 15,
-            spreadRadius: 5,
-          ),
-          const BoxShadow(
-            color: Colors.white,
-            offset: Offset(-4, -4),
-            blurRadius: 15,
-            spreadRadius: 1,
-          ),
-        ],
       ),
     );
   }

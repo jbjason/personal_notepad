@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
+import 'package:personal_notepad/widgets/buttonBlack.dart';
 
 class DrawingScreen extends StatefulWidget {
   const DrawingScreen({Key? key}) : super(key: key);
@@ -20,7 +22,6 @@ class _DrawingScreenState extends State<DrawingScreen> {
   @override
   void initState() {
     super.initState();
-    // initial color & selected color object
     selectedColor = Colors.white;
     strokeWidth = 4.0;
   }
@@ -40,31 +41,40 @@ class _DrawingScreenState extends State<DrawingScreen> {
         backgroundColor: Colors.grey[850],
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding:
+                const EdgeInsets.only(top: 20, bottom: 20, left: 5, right: 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Title Text
-                TitleTextFor(),
+                // TitleTextFormFiled
                 TtileTextFormField(titleController: _titleController),
-                // Description Text
-                const SizedBox(height: 15),
-                DescriptionTextFor(),
-                // drawing canvas & TextField
+                const SizedBox(height: 10),
+                // drawing canvas & DescriptionTextField
                 Center(child: drawingCanvas(size)),
-                const SizedBox(height: 20),
-                // Paint button
-                Container(
-                  color: Colors.white,
-                  child: TextButton.icon(
-                    onPressed: () => setState(() => _isPaint = !_isPaint),
-                    icon: Icon(Icons.format_paint_sharp),
-                    label: Text(_isPaint ? 'Write text' : 'Paint'),
-                  ),
-                ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 // button & constract buttons
                 buttonAndStroke(size),
+                const SizedBox(height: 20),
+                // Allow Paint Button
+                InkWell(
+                  onTap: () => setState(() => _isPaint = !_isPaint),
+                  child: NeumorphismButtonBlack(
+                    boxShape: BoxShape.circle,
+                    padding: 50.0,
+                    text: !_isPaint
+                        ? Icon(Icons.format_paint,
+                            color: Colors.white, size: 30)
+                        : Text(
+                            'Text',
+                            style: GoogleFonts.lakkiReddy(
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -75,12 +85,9 @@ class _DrawingScreenState extends State<DrawingScreen> {
 
   Widget drawingCanvas(Size size) {
     return Container(
-      height: size.height * .65,
+      height: size.height * .6,
       width: size.width,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: Colors.grey[900]!, width: 5),
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
       child: GestureDetector(
         onPanDown: (data) {
           !_isPaint
@@ -127,13 +134,10 @@ class _DrawingScreenState extends State<DrawingScreen> {
 
   Widget buttonAndStroke(Size size) {
     return _isPaint
-        ? Container(
-            width: size.width * .8,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
+        ? NeumorphismButtonBlack(
+            boxShape: BoxShape.rectangle,
+            padding: 3.0,
+            text: Row(
               children: [
                 IconButton(
                     onPressed: () => selectColor(),
@@ -185,38 +189,6 @@ class _DrawingScreenState extends State<DrawingScreen> {
   }
 }
 
-class DescriptionTextFor extends StatelessWidget {
-  const DescriptionTextFor({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Text(
-        'Description',
-        style: TextStyle(color: Colors.white, fontSize: 20),
-      ),
-    );
-  }
-}
-
-class TitleTextFor extends StatelessWidget {
-  const TitleTextFor({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Text('Title',
-          style: TextStyle(color: Colors.white, fontSize: 20)),
-    );
-  }
-}
-
 class TtileTextFormField extends StatelessWidget {
   const TtileTextFormField({
     Key? key,
@@ -235,7 +207,7 @@ class TtileTextFormField extends StatelessWidget {
       cursorWidth: 2,
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.title_sharp, color: Colors.grey[700]),
-        hintText: 'Write here',
+        hintText: 'Title',
         hintStyle: TextStyle(color: Colors.white54),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.transparent),
@@ -277,8 +249,7 @@ class DescriptionTextFormField extends StatelessWidget {
         cursorHeight: 15,
         cursorWidth: 4,
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.description, color: Colors.grey[700]),
-          hintText: 'Write here',
+          hintText: 'Description',
           hintStyle: TextStyle(color: Colors.white54),
           focusColor: Colors.red,
           enabledBorder: OutlineInputBorder(
@@ -289,7 +260,7 @@ class DescriptionTextFormField extends StatelessWidget {
             borderSide: BorderSide(color: Colors.transparent),
           ),
           filled: true,
-          fillColor: _isPaint ? Colors.grey[850] : Colors.grey[900],
+          fillColor: Colors.grey[900],
         ),
         style: TextStyle(color: Colors.white, fontSize: 20),
         keyboardType: TextInputType.text,
