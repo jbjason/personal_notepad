@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personal_notepad/screens/home_screen.dart';
+import 'package:personal_notepad/widgets/details_widgets/drawing_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const HomeScreen(),
+      home: const DrawingScreen(),
     );
   }
 }
