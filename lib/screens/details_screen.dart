@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
+import 'package:personal_notepad/widgets/details_widgets/details_button/camera_button.dart';
+import 'package:personal_notepad/widgets/details_widgets/details_button/gallery_button.dart';
 import 'package:personal_notepad/widgets/neumorphism%20Button/buttonBlack.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/allowPaint_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/myCustomPainter.dart';
@@ -14,7 +16,7 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   List<DrawingArea> initialPoints = [];
-  bool isEnd = false, _isPaint = false, _isOpen = false;
+  bool isEnd = false, _isPaint = false;
   late Color selectedColor;
   late double strokeWidth;
   final _titleController = TextEditingController();
@@ -67,38 +69,33 @@ class _DetailsScreenState extends State<DetailsScreen> {
               // button & constract buttons
               buttonAndStroke(size),
               const SizedBox(height: 15),
-              // Allow Paint Button
+
               Row(
                 children: [
+                  //  Paint Button
                   InkWell(
                     onTap: () => setState(() => _isPaint = !_isPaint),
                     child: AllowPaintAndTextButton(isPaint: _isPaint),
                   ),
                   const SizedBox(width: 5),
+                  // Gallery Button
                   InkWell(
                     onTap: () {},
-                    child: NeumorphismButtonBlack(
-                      padding: 20.0,
-                      boxShape: BoxShape.rectangle,
-                      widget: Icon(Icons.image_outlined,
-                          color: Colors.white, size: 20),
-                    ),
+                    child: GalleryButton(),
                   ),
                   const SizedBox(width: 5),
+                  // Camera Button
                   InkWell(
                     onTap: () {},
-                    child: NeumorphismButtonBlack(
-                      padding: 20.0,
-                      boxShape: BoxShape.circle,
-                      widget: Icon(CupertinoIcons.camera,
-                          color: Colors.white, size: 20),
-                    ),
+                    child: CameraButton(),
                   ),
                   const SizedBox(width: 5),
+                  // Image Preview
                   Expanded(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
-                      child: Image.asset('assets/brush.jpg', fit: BoxFit.cover),
+                      child: Image.asset('assets/brush.jpg',
+                          height: 160, fit: BoxFit.cover),
                     ),
                   ),
                 ],
