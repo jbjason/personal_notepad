@@ -15,7 +15,7 @@ class AllowPaintAndTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return NeumorphismButtonBlack(
       boxShape: BoxShape.circle,
-      padding: !_isPaint ? 20.0 : 16,
+      padding: !_isPaint ? 20.0 : 14,
       widget: !_isPaint
           ? Icon(Icons.format_paint, color: Colors.white, size: 20)
           : Text(

@@ -1,9 +1,13 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/camera_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/gallery_button.dart';
+import 'package:personal_notepad/widgets/details_widgets/image_preview.dart';
 import 'package:personal_notepad/widgets/neumorphism%20Button/buttonBlack.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/allowPaint_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/myCustomPainter.dart';
@@ -21,7 +25,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   late double strokeWidth;
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
-
+  File? image;
   @override
   void initState() {
     super.initState();
@@ -51,7 +55,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
           },
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.smiley))
+          IconButton(
+              onPressed: () {}, icon: const Icon(CupertinoIcons.delete_solid)),
+          IconButton(
+              onPressed: () {
+                if (_descriptionController.text.trim().isEmpty) {
+                  print('Cant save Jb');
+                } else {
+                  print(_titleController.text);
+                  print('jb');
+                  print(_descriptionController.text);
+                }
+              },
+              icon: const Icon(Icons.bookmark_add))
         ],
       ),
       body: SingleChildScrollView(
@@ -69,7 +85,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
               // button & constract buttons
               buttonAndStroke(size),
               const SizedBox(height: 15),
-
               Row(
                 children: [
                   //  Paint Button
@@ -80,24 +95,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   const SizedBox(width: 5),
                   // Gallery Button
                   InkWell(
-                    onTap: () {},
+                    onTap: () => _pickImage(ImageSource.gallery),
                     child: GalleryButton(),
                   ),
                   const SizedBox(width: 5),
                   // Camera Button
                   InkWell(
-                    onTap: () {},
+                    onTap: () => _pickImage(ImageSource.camera),
                     child: CameraButton(),
                   ),
-                  const SizedBox(width: 5),
+                  const Spacer(),
                   // Image Preview
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(25),
-                      child: Image.asset('assets/brush.jpg',
-                          height: 160, fit: BoxFit.cover),
-                    ),
-                  ),
+                  ImagePreviewContainer(size: size, image: image),
                 ],
               ),
             ],
@@ -186,6 +195,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
             ),
           )
         : Container();
+  }
+
+  Future _pickImage(ImageSource source) async {
+    try {
+      final pickedImage = await ImagePicker().pickImage(source: source);
+      if (pickedImage == null) return;
+      final loadImage = File(pickedImage.path);
+      setState(() => image = loadImage);
+    } on PlatformException catch (error) {
+      print('Failed to pick image : $error');
+    }
   }
 
   void selectColor() {
