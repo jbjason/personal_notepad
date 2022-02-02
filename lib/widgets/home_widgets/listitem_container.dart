@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:personal_notepad/models/constants.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_notepad/screens/description_screen.dart';
+import 'package:personal_notepad/screens/details_screen.dart';
 
 // ignore: must_be_immutable
 class ListItemContainer extends StatelessWidget {
@@ -14,7 +14,7 @@ class ListItemContainer extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => const DescriptionScreen()));
+            .push(MaterialPageRoute(builder: (_) => const DetailsScreen()));
       },
       child: Container(
         height: 140,

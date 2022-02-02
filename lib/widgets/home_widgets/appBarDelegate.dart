@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppBarDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
@@ -16,7 +17,7 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
               color: Colors.grey[600],
               //  color: Colors.white,
               borderRadius:
-                  BorderRadius.only(bottomRight: Radius.circular(100)),
+                  BorderRadius.only(bottomRight: Radius.circular(135)),
             ),
           ),
         ),
@@ -27,7 +28,7 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
               color: Colors.grey[700],
               //  color: Colors.white,
               borderRadius:
-                  BorderRadius.only(bottomRight: Radius.circular(140)),
+                  BorderRadius.only(bottomRight: Radius.circular(155)),
             ),
           ),
         ),
@@ -38,7 +39,7 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
               color: Colors.grey[800],
               //  color: Colors.white,
               borderRadius:
-                  BorderRadius.only(bottomRight: Radius.circular(180)),
+                  BorderRadius.only(bottomRight: Radius.circular(185)),
             ),
           ),
         ),
@@ -94,13 +95,13 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
 
   Widget _getCustomAppBar(double shrinkOffset) {
     return Positioned(
-      top: expandedHeight * .4,
+      top: expandedHeight * .37,
       left: 0,
       right: 130,
       child: Opacity(
         opacity: disappear(shrinkOffset),
         child: Container(
-          padding: EdgeInsets.only(top: 20, bottom: 20, left: 45),
+          padding: EdgeInsets.only(top: 25, bottom: 25, left: 45),
           decoration: BoxDecoration(
             color: Colors.grey[900],
             borderRadius: BorderRadius.only(
@@ -123,12 +124,13 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
             ],
           ),
           child: Text('Your Notes',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.w700,
-                color: Colors.white.withOpacity(0.8),
-                fontStyle: FontStyle.italic,
-                letterSpacing: 1,
+              style: GoogleFonts.laBelleAurore(
+                textStyle: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white.withOpacity(0.8),
+                  letterSpacing: 1,
+                ),
               ),
               textAlign: TextAlign.left),
         ),
