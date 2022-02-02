@@ -2,8 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
-import 'package:personal_notepad/widgets/buttonBlack.dart';
-import 'package:personal_notepad/widgets/details_widgets/allowPaint_button.dart';
+import 'package:personal_notepad/widgets/neumorphism%20Button/buttonBlack.dart';
+import 'package:personal_notepad/widgets/details_widgets/details_button/allowPaint_button.dart';
 
 class DrawingScreen extends StatefulWidget {
   const DrawingScreen({Key? key}) : super(key: key);
@@ -123,7 +123,7 @@ class _DrawingScreenState extends State<DrawingScreen> {
         ? NeumorphismButtonBlack(
             boxShape: BoxShape.rectangle,
             padding: 3.0,
-            text: Row(
+            widget: Row(
               children: [
                 IconButton(
                     onPressed: () => selectColor(),

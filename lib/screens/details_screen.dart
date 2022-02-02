@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
-import 'package:personal_notepad/widgets/buttonBlack.dart';
-import 'package:personal_notepad/widgets/details_widgets/allowPaint_button.dart';
+import 'package:personal_notepad/widgets/neumorphism%20Button/buttonBlack.dart';
+import 'package:personal_notepad/widgets/details_widgets/details_button/allowPaint_button.dart';
+import 'package:personal_notepad/widgets/details_widgets/myCustomPainter.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   List<DrawingArea> initialPoints = [];
-  bool isEnd = false, _isPaint = false;
+  bool isEnd = false, _isPaint = false, _isOpen = false;
   late Color selectedColor;
   late double strokeWidth;
   final _titleController = TextEditingController();
@@ -54,8 +54,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding:
-              const EdgeInsets.only(bottom: 15, left: 5, right: 5),
+          padding: const EdgeInsets.only(bottom: 15, left: 5, right: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -69,9 +68,40 @@ class _DetailsScreenState extends State<DetailsScreen> {
               buttonAndStroke(size),
               const SizedBox(height: 15),
               // Allow Paint Button
-              InkWell(
-                onTap: () => setState(() => _isPaint = !_isPaint),
-                child: AllowPaintAndTextButton(isPaint: _isPaint),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () => setState(() => _isPaint = !_isPaint),
+                    child: AllowPaintAndTextButton(isPaint: _isPaint),
+                  ),
+                  const SizedBox(width: 5),
+                  InkWell(
+                    onTap: () {},
+                    child: NeumorphismButtonBlack(
+                      padding: 20.0,
+                      boxShape: BoxShape.rectangle,
+                      widget: Icon(Icons.image_outlined,
+                          color: Colors.white, size: 20),
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  InkWell(
+                    onTap: () {},
+                    child: NeumorphismButtonBlack(
+                      padding: 20.0,
+                      boxShape: BoxShape.circle,
+                      widget: Icon(CupertinoIcons.camera,
+                          color: Colors.white, size: 20),
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Image.asset('assets/brush.jpg', fit: BoxFit.cover),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -135,7 +165,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ? NeumorphismButtonBlack(
             boxShape: BoxShape.rectangle,
             padding: 3.0,
-            text: Row(
+            widget: Row(
               children: [
                 IconButton(
                     onPressed: () => selectColor(),
@@ -267,29 +297,4 @@ class DescriptionTextFormField extends StatelessWidget {
       ),
     );
   }
-}
-
-class MyCustomPainter extends CustomPainter {
-  MyCustomPainter({required this.isEnd, required this.points});
-  final List<DrawingArea> points;
-  final bool isEnd;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint background = Paint()..color = Colors.grey[900]!;
-    Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
-    canvas.drawRect(rect, background);
-
-    for (int x = 0; x < points.length - 1; x++) {
-      final paint = points[x].areaPaint;
-      if (points.isNotEmpty && isEnd == false) {
-        canvas.drawLine(points[x].point, points[x + 1].point, paint);
-      } else if (points.isNotEmpty && isEnd == true) {
-        canvas.drawPoints(PointMode.points, [points[x].point], paint);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

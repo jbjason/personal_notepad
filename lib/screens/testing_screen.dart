@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:personal_notepad/widgets/buttonBlack.dart';
-import 'package:personal_notepad/widgets/buttonWhite.dart';
+import 'package:personal_notepad/widgets/neumorphism%20Button/buttonBlack.dart';
+import 'package:personal_notepad/widgets/neumorphism%20Button/buttonWhite.dart';
 
 class TestingScreen extends StatefulWidget {
 //  final Uint8List image;
@@ -20,7 +20,7 @@ class _TestingScreenState extends State<TestingScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             NeumorphismButtonBlack(
-              text: Text('Hello'),
+              widget: Text('Hello'),
               padding: 50.0,
               boxShape: BoxShape.rectangle,
             ),

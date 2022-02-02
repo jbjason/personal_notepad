@@ -15,7 +15,7 @@ class BodyTopParts extends StatelessWidget {
           const Spacer(),
           TextButton.icon(
             onPressed: () {},
-            icon: Icon(Icons.align_horizontal_center_sharp, color: Colors.grey),
+            icon: Icon(CupertinoIcons.pencil_outline, color: Colors.grey),
             label: Text(
               'Date modified   |',
               style: TextStyle(color: Colors.grey),

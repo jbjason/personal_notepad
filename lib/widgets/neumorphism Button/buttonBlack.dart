@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 class NeumorphismButtonBlack extends StatelessWidget {
   const NeumorphismButtonBlack({
     Key? key,
-    required this.text,
+    required this.widget,
     required this.padding,
     required this.boxShape,
   }) : super(key: key);
-  final Widget text;
+  final Widget widget;
   final double padding;
   final BoxShape boxShape;
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: text,
+      child: widget,
       padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(
         color: Colors.grey[900],

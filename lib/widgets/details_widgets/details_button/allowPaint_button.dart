@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:personal_notepad/widgets/buttonBlack.dart';
+import 'package:personal_notepad/widgets/neumorphism%20Button/buttonBlack.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AllowPaintAndTextButton extends StatelessWidget {
   const AllowPaintAndTextButton({
     Key? key,
     required bool isPaint,
-  }) : _isPaint = isPaint, super(key: key);
+  })  : _isPaint = isPaint,
+        super(key: key);
 
   final bool _isPaint;
 
@@ -14,17 +15,15 @@ class AllowPaintAndTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return NeumorphismButtonBlack(
       boxShape: BoxShape.circle,
-      padding: 50.0,
-      text: !_isPaint
-          ? Icon(Icons.format_paint,
-              color: Colors.white, size: 30)
+      padding: !_isPaint ? 20.0 : 16,
+      widget: !_isPaint
+          ? Icon(Icons.format_paint, color: Colors.white, size: 20)
           : Text(
               'Text',
               style: GoogleFonts.lakkiReddy(
                 textStyle: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
-                  letterSpacing: 1,
                 ),
               ),
             ),

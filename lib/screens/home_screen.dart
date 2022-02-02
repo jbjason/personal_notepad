@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:personal_notepad/widgets/home_widgets/appBarDelegate.dart';
 import 'package:personal_notepad/widgets/home_widgets/bodyTopParts.dart';
-import 'package:personal_notepad/widgets/home_widgets/user_notes.dart';
+import 'package:personal_notepad/widgets/home_widgets/user_home.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
