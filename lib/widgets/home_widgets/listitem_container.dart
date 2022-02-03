@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_notepad/models/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:personal_notepad/models/my_note.dart';
 import 'package:personal_notepad/screens/details_screen.dart';
 
 // ignore: must_be_immutable
 class ListItemContainer extends StatelessWidget {
-  ListItemContainer({Key? key}) : super(key: key);
+  ListItemContainer({Key? key, required this.product}) : super(key: key);
+
+  final MyNote product;
 
   DateFormat dateFormat = DateFormat("HH:mm    dd-MM-yyyy");
   @override
   Widget build(BuildContext context) {
+    
     String dateString = dateFormat.format(DateTime.now());
     return InkWell(
       onTap: () {
@@ -34,7 +38,7 @@ class ListItemContainer extends StatelessWidget {
                         color: textColor,
                         fontSize: 16,
                         letterSpacing: 2,
-                       fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
