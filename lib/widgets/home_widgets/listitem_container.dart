@@ -8,14 +8,13 @@ import 'package:personal_notepad/screens/details_screen.dart';
 // ignore: must_be_immutable
 class ListItemContainer extends StatelessWidget {
   ListItemContainer({Key? key, required this.product}) : super(key: key);
-
   final MyNote product;
-
   DateFormat dateFormat = DateFormat("HH:mm    dd-MM-yyyy");
+
   @override
   Widget build(BuildContext context) {
-    
-    String dateString = dateFormat.format(DateTime.now());
+    String dateString = dateFormat.format(product.dateTime);
+    final bool _isEmpty = product.imageDir == null;
     return InkWell(
       onTap: () {
         Navigator.of(context)
@@ -30,8 +29,9 @@ class ListItemContainer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // title
                   Text(
-                    'Title',
+                    product.title,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.permanentMarker(
                       textStyle: TextStyle(
@@ -42,11 +42,13 @@ class ListItemContainer extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // datetime
                   Text(dateString,
                       style: TextStyle(color: Colors.grey, fontSize: 11)),
                   const SizedBox(height: 10),
+                  // description
                   Text(
-                    'The service is referred to by different colloquialisms depending on the region. It may simply be referred to as a "text" in North America, the United Kingdom, Australia, New Zealand, and the Philippines, an "SMS" in most of mainland Europe, or an "MMS" or "SMS" in the Middle East, Africa, and Asia. The sender of a text message is commonly referred to as a "texter".',
+                    product.description,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
                     style: GoogleFonts.architectsDaughter(
@@ -56,13 +58,16 @@ class ListItemContainer extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              width: 120,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.asset('assets/brush.jpg', fit: BoxFit.cover),
-              ),
-            ),
+            // image Preview
+            !_isEmpty
+                ? Container(
+                    width: 120,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Image.file(product.imageDir!, fit: BoxFit.cover),
+                    ),
+                  )
+                : Container(),
           ],
         ),
         padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20),

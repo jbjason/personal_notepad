@@ -6,12 +6,15 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
+import 'package:personal_notepad/models/my_note.dart';
+import 'package:personal_notepad/provider/my_notesP.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/camera_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/gallery_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/image_preview.dart';
 import 'package:personal_notepad/widgets/neumorphism%20Button/buttonBlack.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/allowPaint_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/myCustomPainter.dart';
+import 'package:provider/provider.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({Key? key}) : super(key: key);
@@ -43,6 +46,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final productsData = Provider.of<MyNotesP>(context);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[850],
@@ -59,8 +63,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
           IconButton(
             icon: const Icon(Icons.bookmark_add),
             onPressed: () {
-              if (_descriptionController.text.trim().isEmpty) {
+              if (_titleController.text.trim().isEmpty) {
                 print('Cant save Jb');
+              } else {
+                productsData.addNote(MyNote(
+                  title: _titleController.text.trim(),
+                  description: _descriptionController.text.trim(),
+                  imageDir: image,
+                  dateTime: DateTime.now(),
+                  points: initialPoints,
+                ));
               }
             },
           ),

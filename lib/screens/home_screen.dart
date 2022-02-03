@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:personal_notepad/screens/details_screen.dart';
 import 'package:personal_notepad/widgets/home_widgets/appBarDelegate.dart';
 import 'package:personal_notepad/widgets/home_widgets/bodyTopParts.dart';
 import 'package:personal_notepad/widgets/home_widgets/user_home.dart';
@@ -28,7 +29,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
 
 class AddNewNoteButton extends StatelessWidget {
   const AddNewNoteButton({
@@ -64,7 +64,10 @@ class AddNewNoteButton extends StatelessWidget {
           color: Colors.deepOrange[300],
           size: 40,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => const DetailsScreen()));
+        },
       ),
     );
   }

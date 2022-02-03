@@ -8,7 +8,7 @@ class UserNotes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<MyNotesP>(context);
+    final productsData = Provider.of<MyNotesP>(context, listen: true);
     final products = productsData.items;
     return SliverList(
       delegate: SliverChildBuilderDelegate(
