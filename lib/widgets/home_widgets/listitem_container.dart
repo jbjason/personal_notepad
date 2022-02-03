@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_notepad/models/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:personal_notepad/screens/details_screen.dart';
@@ -28,22 +29,24 @@ class ListItemContainer extends StatelessWidget {
                   Text(
                     'Title',
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.permanentMarker(
+                      textStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 16,
+                        letterSpacing: 2,
+                       fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Text(dateString,
                       style: TextStyle(color: Colors.grey, fontSize: 11)),
                   const SizedBox(height: 10),
                   Text(
-                    'Hello asfba asdhgajs asyfgasgjash ahghajhgaj.ash ashgaj hg Hello asfba asdhgajs asyfgasgjash ahghajhgaj',
+                    'The service is referred to by different colloquialisms depending on the region. It may simply be referred to as a "text" in North America, the United Kingdom, Australia, New Zealand, and the Philippines, an "SMS" in most of mainland Europe, or an "MMS" or "SMS" in the Middle East, Africa, and Asia. The sender of a text message is commonly referred to as a "texter".',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: 13,
+                    style: GoogleFonts.architectsDaughter(
+                      textStyle: TextStyle(color: textColor, fontSize: 13),
                     ),
                   ),
                 ],
@@ -70,7 +73,7 @@ class ListItemContainer extends StatelessWidget {
     boxShadow: [
       const BoxShadow(
         color: Colors.black,
-        offset: Offset(4, 4),
+        offset: Offset(5, 5),
         blurRadius: 15,
         spreadRadius: 5,
       ),

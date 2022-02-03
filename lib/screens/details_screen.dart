@@ -61,17 +61,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
             onPressed: () {
               if (_descriptionController.text.trim().isEmpty) {
                 print('Cant save Jb');
-              } else {
-                print(_titleController.text);
-                print('jb');
-                print(_descriptionController.text);
               }
             },
           ),
           IconButton(
-            icon: const Icon(CupertinoIcons.delete_solid),
-            onPressed: () {},
-          ),
+              icon: const Icon(CupertinoIcons.delete_solid), onPressed: () {}),
         ],
       ),
       body: SingleChildScrollView(
@@ -254,26 +248,30 @@ class TtileTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: _titleController,
-      cursorColor: Colors.red,
-      cursorHeight: 15,
-      cursorWidth: 3,
-      style: TextStyle(color: Colors.white, fontSize: 18),
-      keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.done,
-      decoration: InputDecoration(
-        hintText: 'Title',
-        hintStyle:
-            GoogleFonts.neucha(textStyle: TextStyle(color: Colors.white70,letterSpacing: 5),),
-        filled: true,
-        fillColor: Colors.grey[900],
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.transparent),
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.transparent),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      child: TextFormField(
+        controller: _titleController,
+        cursorColor: Colors.red,
+        cursorHeight: 15,
+        cursorWidth: 3,
+        style: TextStyle(color: Colors.white, fontSize: 18),
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(
+          hintText: 'Title',
+          hintStyle: GoogleFonts.neucha(
+            textStyle: TextStyle(color: Colors.white70, letterSpacing: 3.5),
+          ),
+          filled: true,
+          fillColor: Colors.grey[900],
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent),
+          ),
         ),
       ),
     );
@@ -295,7 +293,7 @@ class DescriptionTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: TextFormField(
         controller: _descriptionController,
         readOnly: _isPaint ? true : false,
@@ -308,8 +306,8 @@ class DescriptionTextFormField extends StatelessWidget {
         maxLines: _isPaint ? 2 : 14,
         decoration: InputDecoration(
           hintText: 'Description',
-          hintStyle:
-              GoogleFonts.neucha(textStyle: TextStyle(color: Colors.white54,letterSpacing: 2)),
+          hintStyle: GoogleFonts.neucha(
+              textStyle: TextStyle(color: Colors.white54, letterSpacing: 2)),
           focusColor: Colors.red,
           filled: true,
           fillColor: Colors.transparent,
