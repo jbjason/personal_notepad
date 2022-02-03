@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personal_notepad/provider/my_notesP.dart';
+import 'package:personal_notepad/screens/details_screen.dart';
 import 'package:personal_notepad/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.purple,
         ),
         home: const HomeScreen(),
+        routes: {
+          DetailsScreen.routeName: (ctx) => DetailsScreen(),
+        },
       ),
     );
   }

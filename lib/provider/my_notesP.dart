@@ -8,6 +8,10 @@ class MyNotesP with ChangeNotifier {
     return [..._items];
   }
 
+  MyNote findItemById(String s) {
+    return _items.firstWhere((element) => element.id == s);
+  }
+
   void addNote(MyNote myNote) {
     _items.add(myNote);
     notifyListeners();

@@ -17,6 +17,7 @@ import 'package:personal_notepad/widgets/details_widgets/myCustomPainter.dart';
 import 'package:provider/provider.dart';
 
 class DetailsScreen extends StatefulWidget {
+  static const routeName = '/details-screen';
   const DetailsScreen({Key? key}) : super(key: key);
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
@@ -30,9 +31,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   File? image;
+
   @override
   void initState() {
     super.initState();
+    final id = ModalRoute.of(context)?.settings.arguments as String;
+    final item = Provider.of<MyNotesP>(context).findItemById(id);
+    initialPoints = item.points;
+    _titleController.text = item.title;
+    _descriptionController.text = item.description;
+    image = item.imageDir;
     selectedColor = Colors.white;
     strokeWidth = 4.0;
   }
@@ -67,6 +75,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 print('Cant save Jb');
               } else {
                 productsData.addNote(MyNote(
+                  id: DateTime.now().toIso8601String(),
                   title: _titleController.text.trim(),
                   description: _descriptionController.text.trim(),
                   imageDir: image,

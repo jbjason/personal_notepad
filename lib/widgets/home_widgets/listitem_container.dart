@@ -18,7 +18,7 @@ class ListItemContainer extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => const DetailsScreen()));
+            .pushNamed(DetailsScreen.routeName, arguments: product.id);
       },
       child: Container(
         height: 140,

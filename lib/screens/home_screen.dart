@@ -65,8 +65,7 @@ class AddNewNoteButton extends StatelessWidget {
           size: 40,
         ),
         onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => const DetailsScreen()));
+          Navigator.of(context).pushNamed(DetailsScreen.routeName);
         },
       ),
     );
