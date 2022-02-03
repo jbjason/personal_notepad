@@ -11,49 +11,10 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
     return Stack(
       children: [
         // shadow Container
-        Positioned.fill(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[600],
-              //  color: Colors.white,
-              borderRadius:
-                  BorderRadius.only(bottomRight: Radius.circular(135)),
-            ),
-          ),
-        ),
-        // shadow Container
-        Positioned.fill(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[700],
-              //  color: Colors.white,
-              borderRadius:
-                  BorderRadius.only(bottomRight: Radius.circular(155)),
-            ),
-          ),
-        ),
-        // shadow Container
-        Positioned.fill(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[800],
-              //  color: Colors.white,
-              borderRadius:
-                  BorderRadius.only(bottomRight: Radius.circular(185)),
-            ),
-          ),
-        ),
-        // shadow Container
-        Positioned.fill(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[850],
-              // color: Colors.white,
-              borderRadius:
-                  BorderRadius.only(bottomRight: Radius.circular(220)),
-            ),
-          ),
-        ),
+        ShadowContainer(containerColor: Colors.grey[600], radiusDouble: 135.0),
+        ShadowContainer(containerColor: Colors.grey[700], radiusDouble: 155.0),
+        ShadowContainer(containerColor: Colors.grey[800], radiusDouble: 185.0),
+        ShadowContainer(containerColor: Colors.grey[850], radiusDouble: 220.0),
         // Main & Actual AppbarContainer
         Container(
           decoration: BoxDecoration(
@@ -150,4 +111,29 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
       false;
+}
+
+class ShadowContainer extends StatelessWidget {
+  const ShadowContainer({
+    Key? key,
+    required this.containerColor,
+    required this.radiusDouble,
+  }) : super(key: key);
+
+  final Color? containerColor;
+  final double radiusDouble;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: Container(
+        decoration: BoxDecoration(
+          color: containerColor,
+          //  color: Colors.white,
+          borderRadius:
+              BorderRadius.only(bottomRight: Radius.circular(radiusDouble)),
+        ),
+      ),
+    );
+  }
 }
