@@ -16,8 +16,7 @@ class ImagePreviewContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return image == null
         ? Container()
-        : Container(
-            width: size.width * .4,
+        : Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
               child: Image.file(image!, height: 160, fit: BoxFit.cover),

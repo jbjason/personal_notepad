@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_notepad/widgets/neumorphism%20Button/buttonBlack.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +18,8 @@ class AllowPaintAndTextButton extends StatelessWidget {
       boxShape: BoxShape.circle,
       padding: !_isPaint ? 20.0 : 14,
       widget: !_isPaint
-          ? Icon(Icons.format_paint, color: Colors.white, size: 20)
+          ? Icon(Icons.brush,
+           color: Colors.white, size: 20)
           : Text(
               'Text',
               style: GoogleFonts.lakkiReddy(

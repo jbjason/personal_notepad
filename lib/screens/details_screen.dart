@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/camera_button.dart';
@@ -56,18 +57,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ),
         actions: [
           IconButton(
-              onPressed: () {}, icon: const Icon(CupertinoIcons.delete_solid)),
+            icon: const Icon(Icons.bookmark_add),
+            onPressed: () {
+              if (_descriptionController.text.trim().isEmpty) {
+                print('Cant save Jb');
+              } else {
+                print(_titleController.text);
+                print('jb');
+                print(_descriptionController.text);
+              }
+            },
+          ),
           IconButton(
-              onPressed: () {
-                if (_descriptionController.text.trim().isEmpty) {
-                  print('Cant save Jb');
-                } else {
-                  print(_titleController.text);
-                  print('jb');
-                  print(_descriptionController.text);
-                }
-              },
-              icon: const Icon(Icons.bookmark_add))
+            icon: const Icon(CupertinoIcons.delete_solid),
+            onPressed: () {},
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -87,24 +91,29 @@ class _DetailsScreenState extends State<DetailsScreen> {
               const SizedBox(height: 15),
               Row(
                 children: [
-                  //  Paint Button
-                  InkWell(
-                    onTap: () => setState(() => _isPaint = !_isPaint),
-                    child: AllowPaintAndTextButton(isPaint: _isPaint),
+                  Container(
+                    width: size.width * .6,
+                    child: Wrap(
+                      spacing: 7,
+                      children: [
+                        //  Paint Button
+                        InkWell(
+                          onTap: () => setState(() => _isPaint = !_isPaint),
+                          child: AllowPaintAndTextButton(isPaint: _isPaint),
+                        ),
+                        // Gallery Button
+                        InkWell(
+                          onTap: () => _pickImage(ImageSource.gallery),
+                          child: GalleryButton(),
+                        ),
+                        // Camera Button
+                        InkWell(
+                          onTap: () => _pickImage(ImageSource.camera),
+                          child: CameraButton(),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(width: 5),
-                  // Gallery Button
-                  InkWell(
-                    onTap: () => _pickImage(ImageSource.gallery),
-                    child: GalleryButton(),
-                  ),
-                  const SizedBox(width: 5),
-                  // Camera Button
-                  InkWell(
-                    onTap: () => _pickImage(ImageSource.camera),
-                    child: CameraButton(),
-                  ),
-                  const Spacer(),
                   // Image Preview
                   ImagePreviewContainer(size: size, image: image),
                 ],
@@ -248,12 +257,17 @@ class TtileTextFormField extends StatelessWidget {
     return TextFormField(
       controller: _titleController,
       cursorColor: Colors.red,
-      cursorHeight: 10,
-      cursorWidth: 2,
+      cursorHeight: 15,
+      cursorWidth: 3,
+      style: TextStyle(color: Colors.white, fontSize: 18),
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.title_sharp, color: Colors.grey[700]),
         hintText: 'Title',
-        hintStyle: TextStyle(color: Colors.white54),
+        hintStyle:
+            GoogleFonts.neucha(textStyle: TextStyle(color: Colors.white70,letterSpacing: 5),),
+        filled: true,
+        fillColor: Colors.grey[900],
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.transparent),
           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -261,12 +275,7 @@ class TtileTextFormField extends StatelessWidget {
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.transparent),
         ),
-        filled: true,
-        fillColor: Colors.grey[900],
       ),
-      style: TextStyle(color: Colors.white54, fontSize: 18),
-      keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.done,
     );
   }
 }
@@ -292,11 +301,18 @@ class DescriptionTextFormField extends StatelessWidget {
         readOnly: _isPaint ? true : false,
         cursorColor: Colors.red,
         cursorHeight: 15,
-        cursorWidth: 4,
+        cursorWidth: 3,
+        style: TextStyle(color: Colors.white, fontSize: 20),
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.done,
+        maxLines: _isPaint ? 2 : 14,
         decoration: InputDecoration(
           hintText: 'Description',
-          hintStyle: TextStyle(color: Colors.white54),
+          hintStyle:
+              GoogleFonts.neucha(textStyle: TextStyle(color: Colors.white54,letterSpacing: 2)),
           focusColor: Colors.red,
+          filled: true,
+          fillColor: Colors.transparent,
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.transparent),
             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -304,13 +320,7 @@ class DescriptionTextFormField extends StatelessWidget {
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.transparent),
           ),
-          filled: true,
-          fillColor: Colors.transparent,
         ),
-        style: TextStyle(color: Colors.white, fontSize: 20),
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.done,
-        maxLines: _isPaint ? 2 : 14,
       ),
     );
   }
