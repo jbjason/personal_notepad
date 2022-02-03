@@ -31,18 +31,32 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   File? image;
+  var _initValues = {
+    'title': '',
+    'description': '',
+  };
 
   @override
   void initState() {
     super.initState();
-    final id = ModalRoute.of(context)?.settings.arguments as String;
-    final item = Provider.of<MyNotesP>(context).findItemById(id);
-    initialPoints = item.points;
-    _titleController.text = item.title;
-    _descriptionController.text = item.description;
-    image = item.imageDir;
     selectedColor = Colors.white;
     strokeWidth = 4.0;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final id = ModalRoute.of(context)!.settings.arguments as String;
+    if (id == '') return;
+    final item = Provider.of<MyNotesP>(context, listen: false).findItemById(id);
+    initialPoints = item.points;
+    image = item.imageDir;
+    _titleController.text = item.title;
+    _descriptionController.text = item.description;
+    // _initValues = {
+    //   'title': item.title,
+    //   'description': item.description,
+    // };
   }
 
   @override
@@ -97,7 +111,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // TitleTextFormFiled
-              TtileTextFormField(titleController: _titleController),
+              TtileTextFormField(
+                titleController: _titleController,
+                title: _initValues['title']!,
+              ),
               const SizedBox(height: 7),
               // drawing canvas & DescriptionTextField
               Center(child: drawingCanvas(size)),
@@ -184,6 +201,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             child: DescriptionTextFormField(
               descriptionController: _descriptionController,
               isPaint: _isPaint,
+              description: _initValues['description']!,
             ),
           ),
         ),
@@ -263,9 +281,10 @@ class TtileTextFormField extends StatelessWidget {
   const TtileTextFormField({
     Key? key,
     required TextEditingController titleController,
+    required this.title,
   })  : _titleController = titleController,
         super(key: key);
-
+  final String title;
   final TextEditingController _titleController;
 
   @override
@@ -273,6 +292,7 @@ class TtileTextFormField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: TextFormField(
+        //initialValue: title,
         controller: _titleController,
         cursorColor: Colors.red,
         cursorHeight: 15,
@@ -305,18 +325,21 @@ class DescriptionTextFormField extends StatelessWidget {
     Key? key,
     required TextEditingController descriptionController,
     required bool isPaint,
+    required this.description,
   })  : _descriptionController = descriptionController,
         _isPaint = isPaint,
         super(key: key);
 
   final TextEditingController _descriptionController;
   final bool _isPaint;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: TextFormField(
+       // initialValue: description,
         controller: _descriptionController,
         readOnly: _isPaint ? true : false,
         cursorColor: Colors.red,
