@@ -73,6 +73,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   dateTime: DateTime.now(),
                   points: initialPoints,
                 ));
+                Navigator.pop(context);
               }
             },
           ),
