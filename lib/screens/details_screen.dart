@@ -31,6 +31,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   File? image;
+  String _id = '';
 
   @override
   void initState() {
@@ -50,6 +51,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       image = item.imageDir;
       _titleController.text = item.title;
       _descriptionController.text = item.description;
+      _id = item.id;
     }
   }
 
@@ -95,7 +97,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
             },
           ),
           IconButton(
-              icon: const Icon(CupertinoIcons.delete_solid), onPressed: () {}),
+            icon: const Icon(CupertinoIcons.delete_solid),
+            onPressed: () {
+              if (_id.isNotEmpty) {
+                productsData.deleteItem(_id);
+                Navigator.of(context).pop();
+              }
+            },
+          ),
         ],
       ),
       body: SingleChildScrollView(

@@ -12,6 +12,15 @@ class MyNotesP with ChangeNotifier {
       imageDir: null,
       dateTime: DateTime.now(),
     ),
+    MyNote(
+      id: DateTime.now().toIso8601String(),
+      title: 'My Second Note',
+      description:
+          'Descriptive Text is a text which says what a person or a thing is like. Its purpose is to describe and reveal a particular person, place, or thing. ... So, it can be said that this descriptive text is a text that explains about whether a person or an object is like, whether its form, its properties, its amount and others ',
+      points: [],
+      imageDir: null,
+      dateTime: DateTime.now(),
+    ),
   ];
 
   List<MyNote> get items {
@@ -20,6 +29,12 @@ class MyNotesP with ChangeNotifier {
 
   MyNote findItemById(String id) {
     return _items.firstWhere((element) => element.id == id);
+  }
+
+  void deleteItem(String id) {
+    final exIndex = _items.indexWhere((element) => element.id == id);
+    _items.removeAt(exIndex);
+    notifyListeners();
   }
 
   void addNote(MyNote myNote) {

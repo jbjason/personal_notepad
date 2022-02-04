@@ -30,7 +30,7 @@ class ListItemContainer extends StatelessWidget {
                   topLeft: Radius.circular(12),
                   topRight: Radius.circular(12),
                   bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(12)),
+                  bottomRight: Radius.circular(10)),
             ),
           ),
           Container(
@@ -84,7 +84,7 @@ class ListItemContainer extends StatelessWidget {
                     : Container(),
               ],
             ),
-            padding: const EdgeInsets.only(top: 10, bottom: 7, left: 15,right: 15),
+            padding: const EdgeInsets.only(top: 10, bottom: 7, left: 15,right: 10),
             decoration: boxDecoration,
           ),
         ],
@@ -97,8 +97,8 @@ class ListItemContainer extends StatelessWidget {
     borderRadius: BorderRadius.only(
       topLeft: Radius.circular(12),
       topRight: Radius.circular(12),
-      bottomLeft: Radius.circular(60),
-      bottomRight: Radius.circular(12),
+      bottomLeft: Radius.circular(50),
+      bottomRight: Radius.circular(50),
     ),
     boxShadow: [
       const BoxShadow(
