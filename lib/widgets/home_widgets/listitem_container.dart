@@ -20,65 +20,86 @@ class ListItemContainer extends StatelessWidget {
         Navigator.of(context)
             .pushNamed(DetailsScreen.routeName, arguments: product.id);
       },
-      child: Container(
-        height: 140,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // title
-                  Text(
-                    product.title,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.permanentMarker(
-                      textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 16,
-                        letterSpacing: 2,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  // datetime
-                  Text(dateString,
-                      style: TextStyle(color: Colors.grey, fontSize: 11)),
-                  const SizedBox(height: 10),
-                  // description
-                  Text(
-                    product.description,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
-                    style: GoogleFonts.architectsDaughter(
-                      textStyle: TextStyle(color: textColor, fontSize: 13),
-                    ),
-                  ),
-                ],
-              ),
+      child: Stack(
+        children: [
+          Container(
+            height: 140,
+            decoration: BoxDecoration(
+              color: Colors.grey[600],
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(12)),
             ),
-            // image Preview
-            !_isEmpty
-                ? Container(
-                    width: 120,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Image.file(product.imageDir!, fit: BoxFit.cover),
-                    ),
-                  )
-                : Container(),
-          ],
-        ),
-        padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20),
-        decoration: boxDecoration,
+          ),
+          Container(
+            height: 140,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // title
+                      Text(
+                        product.title,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.permanentMarker(
+                          textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            letterSpacing: 2,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      // datetime
+                      Text(dateString,
+                          style: TextStyle(color: Colors.grey, fontSize: 11)),
+                      const SizedBox(height: 10),
+                      // description
+                      Text(
+                        product.description,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                        style: GoogleFonts.architectsDaughter(
+                          textStyle: TextStyle(color: textColor, fontSize: 13),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // image Preview
+                !_isEmpty
+                    ? Container(
+                        width: 120,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child:
+                              Image.file(product.imageDir!, fit: BoxFit.cover),
+                        ),
+                      )
+                    : Container(),
+              ],
+            ),
+            padding: const EdgeInsets.only(top: 10, bottom: 7, left: 15,right: 15),
+            decoration: boxDecoration,
+          ),
+        ],
       ),
     );
   }
 
   final boxDecoration = BoxDecoration(
     color: Colors.grey[850],
-    borderRadius: BorderRadius.circular(12),
+    borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(12),
+      topRight: Radius.circular(12),
+      bottomLeft: Radius.circular(60),
+      bottomRight: Radius.circular(12),
+    ),
     boxShadow: [
       const BoxShadow(
         color: Colors.black,

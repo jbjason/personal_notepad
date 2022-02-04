@@ -18,13 +18,14 @@ class UserNotes extends StatelessWidget {
               (context, index) {
                 return Padding(
                   padding:
-                      EdgeInsets.only(top: 15, bottom: 15, right: 20, left: 20),
+                      EdgeInsets.only(top: 15, bottom: 15, right: 15, left: 15),
                   child: ListItemContainer(product: products[index]),
                 );
               },
               childCount: products.length,
             ),
           )
+          // If items aren't available
         : SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,

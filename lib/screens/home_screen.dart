@@ -38,26 +38,26 @@ class AddNewNoteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:85,
-      width: 85,
+      height:75,
+      width: 75,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: SweepGradient(
-          startAngle: 3,
-          colors: [Colors.grey[800]!, Colors.blue[200]!],
+          startAngle: 2,
+          colors: [Colors.black87, Colors.blue[200]!],
         ),
         boxShadow: [
            BoxShadow(
-            color: Colors.red[700]!,
-            offset: Offset(1, 1),
+            color: Colors.red[900]!,
+            offset:const Offset(1, 1),
             blurRadius: 10,
-            spreadRadius: 3,
+            spreadRadius: 1,
           ),
           BoxShadow(
             color: Colors.black,
             offset: const Offset(-5, -5),
-            blurRadius: 25,
-            spreadRadius: 5,
+            blurRadius: 10,
+            spreadRadius: 1,
           ),
         ],
       ),
