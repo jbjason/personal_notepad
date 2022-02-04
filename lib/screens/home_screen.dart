@@ -43,28 +43,28 @@ class AddNewNoteButton extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: SweepGradient(
-          startAngle: 2,
+          startAngle: 3,
           colors: [Colors.grey[800]!, Colors.blue[200]!],
         ),
         boxShadow: [
-          const BoxShadow(
-            color: Colors.black,
-            offset: Offset(4, 4),
-            blurRadius: 15,
-            spreadRadius: 5,
+           BoxShadow(
+            color: Colors.red[700]!,
+            offset: Offset(1, 1),
+            blurRadius: 10,
+            spreadRadius: 3,
           ),
           BoxShadow(
-            color: Colors.grey.shade800,
-            offset: const Offset(-4, -4),
-            blurRadius: 15,
-            spreadRadius: 1,
+            color: Colors.black,
+            offset: const Offset(-5, -5),
+            blurRadius: 25,
+            spreadRadius: 5,
           ),
         ],
       ),
       child: Padding(
         padding: EdgeInsets.all(10),
         child: FloatingActionButton(
-          backgroundColor: Colors.grey[900],
+          backgroundColor: Colors.black87,
           child: Container(
             decoration: BoxDecoration(shape: BoxShape.circle),
             child: Icon(CupertinoIcons.pencil_ellipsis_rectangle,

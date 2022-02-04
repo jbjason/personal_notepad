@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:personal_notepad/provider/my_notesP.dart';
 import 'package:personal_notepad/widgets/home_widgets/listitem_container.dart';
@@ -25,7 +26,24 @@ class UserNotes extends StatelessWidget {
             ),
           )
         : SliverToBoxAdapter(
-            child: Lottie.asset('assets/welcome.json', fit: BoxFit.cover),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Lottie.asset('assets/hello.json', fit: BoxFit.cover,height: 300),
+                Text(
+                  'Opps!!',
+                  style: GoogleFonts.averiaGruesaLibre(
+                      fontSize: 38,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                Text(
+                  'Notes aren\'t available right now ..',
+                  style:
+                      GoogleFonts.flamenco(fontSize: 18, color: Colors.white70),
+                ),
+              ],
+            ),
           );
   }
 }
