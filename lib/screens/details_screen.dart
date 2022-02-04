@@ -46,17 +46,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final id = ModalRoute.of(context)!.settings.arguments as String;
-    if (id == '') return;
-    final item = Provider.of<MyNotesP>(context, listen: false).findItemById(id);
-    initialPoints = item.points;
-    image = item.imageDir;
-    _titleController.text = item.title;
-    _descriptionController.text = item.description;
-    // _initValues = {
-    //   'title': item.title,
-    //   'description': item.description,
-    // };
+    final id = ModalRoute.of(context)!.settings.arguments;
+    if (id != null) {
+      final item = Provider.of<MyNotesP>(context, listen: false)
+          .findItemById(id.toString());
+      initialPoints = item.points;
+      image = item.imageDir;
+      _titleController.text = item.title;
+      _descriptionController.text = item.description;
+    }
   }
 
   @override
@@ -339,7 +337,7 @@ class DescriptionTextFormField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: TextFormField(
-       // initialValue: description,
+        // initialValue: description,
         controller: _descriptionController,
         readOnly: _isPaint ? true : false,
         cursorColor: Colors.red,
