@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:personal_notepad/provider/my_notesP.dart';
 import 'package:personal_notepad/widgets/home_widgets/listitem_container.dart';
 import 'package:provider/provider.dart';
@@ -10,16 +11,21 @@ class UserNotes extends StatelessWidget {
   Widget build(BuildContext context) {
     final productsData = Provider.of<MyNotesP>(context, listen: true);
     final products = productsData.items;
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          return Padding(
-            padding: EdgeInsets.only(top: 15, bottom: 15, right: 20, left: 20),
-            child: ListItemContainer(product: products[index]),
+    return products.length != 0
+        ? SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return Padding(
+                  padding:
+                      EdgeInsets.only(top: 15, bottom: 15, right: 20, left: 20),
+                  child: ListItemContainer(product: products[index]),
+                );
+              },
+              childCount: products.length,
+            ),
+          )
+        : SliverToBoxAdapter(
+            child: Lottie.asset('assets/welcome.json', fit: BoxFit.cover),
           );
-        },
-        childCount: products.length,
-      ),
-    );
   }
 }

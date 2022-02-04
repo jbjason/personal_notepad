@@ -31,10 +31,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   File? image;
-  var _initValues = {
-    'title': '',
-    'description': '',
-  };
 
   @override
   void initState() {
@@ -109,10 +105,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // TitleTextFormFiled
-              TtileTextFormField(
-                titleController: _titleController,
-                title: _initValues['title']!,
-              ),
+              TtileTextFormField(titleController: _titleController),
               const SizedBox(height: 7),
               // drawing canvas & DescriptionTextField
               Center(child: drawingCanvas(size)),
@@ -197,10 +190,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
             painter: MyCustomPainter(points: initialPoints, isEnd: isEnd),
             // textFormField
             child: DescriptionTextFormField(
-              descriptionController: _descriptionController,
-              isPaint: _isPaint,
-              description: _initValues['description']!,
-            ),
+                descriptionController: _descriptionController,
+                isPaint: _isPaint),
           ),
         ),
       ),
@@ -279,10 +270,8 @@ class TtileTextFormField extends StatelessWidget {
   const TtileTextFormField({
     Key? key,
     required TextEditingController titleController,
-    required this.title,
   })  : _titleController = titleController,
         super(key: key);
-  final String title;
   final TextEditingController _titleController;
 
   @override
@@ -323,14 +312,12 @@ class DescriptionTextFormField extends StatelessWidget {
     Key? key,
     required TextEditingController descriptionController,
     required bool isPaint,
-    required this.description,
   })  : _descriptionController = descriptionController,
         _isPaint = isPaint,
         super(key: key);
 
   final TextEditingController _descriptionController;
   final bool _isPaint;
-  final String description;
 
   @override
   Widget build(BuildContext context) {

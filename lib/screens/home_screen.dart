@@ -38,10 +38,14 @@ class AddNewNoteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 65,
-      width: 75,
+      height:85,
+      width: 85,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
+        gradient: SweepGradient(
+          startAngle: 2,
+          colors: [Colors.grey[800]!, Colors.blue[200]!],
+        ),
         boxShadow: [
           const BoxShadow(
             color: Colors.black,
@@ -57,16 +61,19 @@ class AddNewNoteButton extends StatelessWidget {
           ),
         ],
       ),
-      child: FloatingActionButton(
-        backgroundColor: Colors.grey[900],
-        child: Icon(
-          CupertinoIcons.pencil_ellipsis_rectangle,
-          color: Colors.deepOrange[300],
-          size: 40,
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: FloatingActionButton(
+          backgroundColor: Colors.grey[900],
+          child: Container(
+            decoration: BoxDecoration(shape: BoxShape.circle),
+            child: Icon(CupertinoIcons.pencil_ellipsis_rectangle,
+                size: 40, color: Colors.white),
+          ),
+          onPressed: () {
+            Navigator.of(context).pushNamed(DetailsScreen.routeName);
+          },
         ),
-        onPressed: () {
-          Navigator.of(context).pushNamed(DetailsScreen.routeName);
-        },
       ),
     );
   }
