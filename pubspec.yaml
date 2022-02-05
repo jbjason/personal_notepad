@@ -32,21 +32,20 @@ dependencies:
     sdk: flutter
   flutter_colorpicker: ^1.0.3
   google_fonts: ^2.2.0
+  hive: ^2.0.5
+  hive_flutter: ^1.1.0
   image_picker: ^0.8.4+5
   intl: ^0.17.0
   lottie: ^1.2.1
+  path_provider: ^2.0.8
   provider: ^6.0.2
 
 dev_dependencies:
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
+  build_runner: ^2.1.7
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
+  hive_generator: ^1.1.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
