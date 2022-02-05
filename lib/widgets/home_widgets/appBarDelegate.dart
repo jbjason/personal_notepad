@@ -11,8 +11,8 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
     return Stack(
       children: [
         // shadow Container
-        ShadowContainer(containerColor: Colors.grey[600], radiusDouble: 160.0),
-        ShadowContainer(containerColor: Colors.grey[700], radiusDouble: 178.0),
+        ShadowContainer(containerColor: Colors.grey[600], radiusDouble: 168.0),
+        ShadowContainer(containerColor: Colors.grey[700], radiusDouble: 185.0),
         ShadowContainer(containerColor: Colors.grey[800], radiusDouble: 205.0),
         ShadowContainer(containerColor: Colors.grey[850], radiusDouble: 230.0),
         // Main & Actual AppbarContainer

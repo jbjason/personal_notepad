@@ -22,17 +22,7 @@ class ListItemContainer extends StatelessWidget {
       },
       child: Stack(
         children: [
-          Container(
-            height: 140,
-            decoration: BoxDecoration(
-              color: Colors.grey[600],
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10)),
-            ),
-          ),
+          ShadowListItemeContainer(),
           Container(
             height: 140,
             child: Row(
@@ -84,7 +74,8 @@ class ListItemContainer extends StatelessWidget {
                     : Container(),
               ],
             ),
-            padding: const EdgeInsets.only(top: 10, bottom: 7, left: 15,right: 10),
+            padding:
+                const EdgeInsets.only(top: 10, bottom: 7, left: 15, right: 10),
             decoration: boxDecoration,
           ),
         ],
@@ -95,24 +86,46 @@ class ListItemContainer extends StatelessWidget {
   final boxDecoration = BoxDecoration(
     color: Colors.grey[850],
     borderRadius: BorderRadius.only(
-      topLeft: Radius.circular(12),
+      topLeft: Radius.circular(35),
       topRight: Radius.circular(12),
-      bottomLeft: Radius.circular(50),
-      bottomRight: Radius.circular(50),
+      bottomLeft: Radius.circular(12),
+      bottomRight: Radius.circular(35),
     ),
-    boxShadow: [
-      const BoxShadow(
-        color: Colors.black,
-        offset: Offset(5, 5),
-        blurRadius: 15,
-        spreadRadius: 5,
-      ),
-      BoxShadow(
-        color: Colors.grey.shade800,
-        offset: const Offset(-5, -5),
-        blurRadius: 15,
-        spreadRadius: 1,
-      ),
-    ],
   );
+}
+
+class ShadowListItemeContainer extends StatelessWidget {
+  const ShadowListItemeContainer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 140,
+      decoration: BoxDecoration(
+        color: Colors.grey[700],
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+          bottomLeft: Radius.circular(12),
+          bottomRight: Radius.circular(12),
+        ),
+        boxShadow: [
+          const BoxShadow(
+            color: Colors.black,
+            offset: Offset(5, 5),
+            blurRadius: 15,
+            spreadRadius: 5,
+          ),
+          BoxShadow(
+            color: Colors.grey.shade800,
+            offset: const Offset(-5, -5),
+            blurRadius: 15,
+            spreadRadius: 1,
+          ),
+        ],
+      ),
+    );
+  }
 }
