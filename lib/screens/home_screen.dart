@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
           ),
           SliverToBoxAdapter(child: BodyTopParts()),
           UserNotes(),
-          // SliverToBoxAdapter(child: Placeholder(color: Colors.transparent)),
+          SliverToBoxAdapter(child: Placeholder(color: Colors.transparent)),
           // SliverToBoxAdapter(child: Placeholder(color: Colors.transparent)),
         ],
       ),
