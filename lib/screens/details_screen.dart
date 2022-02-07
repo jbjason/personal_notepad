@@ -90,7 +90,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   title: _titleController.text.trim(),
                   description: _descriptionController.text.trim(),
                   // saving file img as String
-                  imageDir: image.toString(),
+                  imageDir: image != null ? image.toString() : null,
                   dateTime: DateTime.now(),
                   points: initialPoints,
                 ));
