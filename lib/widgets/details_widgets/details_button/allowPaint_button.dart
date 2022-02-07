@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:personal_notepad/widgets/neumorphism%20Button/buttonBlack.dart';
+import 'package:personal_notepad/widgets/common_widgets/buttonBlack.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AllowPaintAndTextButton extends StatelessWidget {

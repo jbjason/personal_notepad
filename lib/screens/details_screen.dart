@@ -8,10 +8,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
 import 'package:personal_notepad/models/my_note.dart';
 import 'package:personal_notepad/provider/my_notesP.dart';
+import 'package:personal_notepad/widgets/common_widgets/format_image.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/camera_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/gallery_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/image_preview.dart';
-import 'package:personal_notepad/widgets/neumorphism%20Button/buttonBlack.dart';
+import 'package:personal_notepad/widgets/common_widgets/buttonBlack.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/allowPaint_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/myCustomPainter.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +49,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       final item = Provider.of<MyNotesP>(context, listen: false)
           .findItemById(id.toString());
       initialPoints = item.points;
-      image = item.imageDir;
+      image = formatImage(item.imageDir!);
       _titleController.text = item.title;
       _descriptionController.text = item.description;
       _id = item.id;
@@ -88,7 +89,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   id: DateTime.now().toIso8601String(),
                   title: _titleController.text.trim(),
                   description: _descriptionController.text.trim(),
-                  imageDir: image,
+                  // saving file img as String
+                  imageDir: image.toString(),
                   dateTime: DateTime.now(),
                   points: initialPoints,
                 ));

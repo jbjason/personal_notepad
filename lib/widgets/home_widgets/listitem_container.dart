@@ -4,6 +4,7 @@ import 'package:personal_notepad/models/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:personal_notepad/models/my_note.dart';
 import 'package:personal_notepad/screens/details_screen.dart';
+import 'package:personal_notepad/widgets/common_widgets/format_image.dart';
 
 // ignore: must_be_immutable
 class ListItemContainer extends StatelessWidget {
@@ -67,8 +68,7 @@ class ListItemContainer extends StatelessWidget {
                         width: 120,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(30),
-                          child:
-                              Image.file(product.imageDir!, fit: BoxFit.cover),
+                          child: Image.file(formatImage(product.imageDir!), fit: BoxFit.cover),
                         ),
                       )
                     : Container(),

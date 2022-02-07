@@ -1,7 +1,9 @@
 import 'package:personal_notepad/models/drawing_area.dart';
 
 class MyNote {
-  final String title, description,id;
+  final String title;
+  final String description;
+  final String id;
   final String? imageDir;
   final List<DrawingArea> points;
   final DateTime dateTime;

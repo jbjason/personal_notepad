@@ -25,20 +25,20 @@ class HomeScreen extends StatelessWidget {
           // SliverToBoxAdapter(child: Placeholder(color: Colors.transparent)),
         ],
       ),
-      floatingActionButton: AddNewNoteButton(),
+      floatingActionButton: FloatingButtonAdd(),
     );
   }
 }
 
-class AddNewNoteButton extends StatelessWidget {
-  const AddNewNoteButton({
+class FloatingButtonAdd extends StatelessWidget {
+  const FloatingButtonAdd({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:75,
+      height: 75,
       width: 75,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
@@ -47,9 +47,9 @@ class AddNewNoteButton extends StatelessWidget {
           colors: [Colors.black87, Colors.blue[200]!],
         ),
         boxShadow: [
-           BoxShadow(
+          BoxShadow(
             color: Colors.red[900]!,
-            offset:const Offset(1, 1),
+            offset: const Offset(1, 1),
             blurRadius: 10,
             spreadRadius: 1,
           ),

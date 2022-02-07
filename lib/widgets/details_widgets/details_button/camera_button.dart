@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:personal_notepad/widgets/neumorphism%20Button/buttonBlack.dart';
+import 'package:personal_notepad/widgets/common_widgets/buttonBlack.dart';
 
 class CameraButton extends StatelessWidget {
   const CameraButton({

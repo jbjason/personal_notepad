@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
-import 'package:personal_notepad/widgets/neumorphism%20Button/buttonBlack.dart';
+import 'package:personal_notepad/widgets/common_widgets/buttonBlack.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/allowPaint_button.dart';
 
 class DrawingScreen extends StatefulWidget {
