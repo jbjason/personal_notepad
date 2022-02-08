@@ -15,7 +15,7 @@ import 'package:personal_notepad/widgets/details_widgets/image_preview.dart';
 import 'package:personal_notepad/widgets/common_widgets/buttonBlack.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/allowPaint_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/myCustomPainter.dart';
-import 'package:personal_notepad/widgets/home_widgets/pick_image.dart';
+import 'package:personal_notepad/widgets/common_widgets/pick_image.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -34,8 +34,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final controller = ScreenshotController();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
-  var snapshotImage;
-  File? image;
+  File? image, snapImage;
   String _id = '';
 
   @override
@@ -52,8 +51,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
     if (id != null) {
       final item = Provider.of<MyNotesP>(context, listen: false)
           .findItemById(id.toString());
-      initialPoints = item.points;
       image = item.imageDir != null ? formatImage(item.imageDir!) : null;
+      snapImage = item.snapImage != null ? formatImage(item.snapImage!) : null;
       _titleController.text = item.title;
       _descriptionController.text = item.description;
       _id = item.id;
@@ -86,31 +85,27 @@ class _DetailsScreenState extends State<DetailsScreen> {
           IconButton(
             icon: const Icon(Icons.bookmark_add),
             onPressed: () async {
-              if (_titleController.text.trim().isEmpty) {
+              if (_titleController.text.trim().isEmpty)
                 print('Cant save Jb');
-              } else {
-                final descText = _descriptionController.text.trim();
+              else {
+                final id = DateTime.now().toIso8601String();
+                File? loadImage;
+                // initialPoints empty means no drawing has been done
                 if (initialPoints.isNotEmpty) {
-                  _descriptionController.text = ' ';
-                  //  setState(() => _isDrawing = true);
                   final captureImage =
                       await controller.captureFromWidget(drawingCanvas(size));
-                  //final loadImage = await takeSnapShot(captureImage);
-                  setState(() => snapshotImage = captureImage);
-                  print('jb \n jason');
-                  var s = snapshotImage.toString();
-                  print(s);
+                  loadImage = await takeSnapShot(captureImage, id);
                 }
-                // productsData.addNote(MyNote(
-                //   id: DateTime.now().toIso8601String(),
-                //   title: _titleController.text.trim(),
-                //   description: descText,
-                //   // saving file img as String
-                //   imageDir: image != null ? image.toString() : null,
-                //   dateTime: DateTime.now(),
-                //   points: initialPoints,
-                // ));
-                //   Navigator.pop(context);
+                productsData.addNote(MyNote(
+                  id: id,
+                  title: _titleController.text.trim(),
+                  description: _descriptionController.text.trim(),
+                  // saving file img as String
+                  imageDir: image != null ? image.toString() : null,
+                  snapImage: loadImage != null ? loadImage.toString() : null,
+                  dateTime: DateTime.now(),
+                ));
+                Navigator.pop(context);
               }
             },
           ),
@@ -190,9 +185,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         color: Colors.grey[900],
-        image: snapshotImage == null
-            ? DecorationImage(image: AssetImage('assets/brush.jpg'))
-            : DecorationImage(image: MemoryImage(snapshotImage)),
+        image: snapImage == null
+            ? DecorationImage(image: AssetImage('assets/background.png'))
+            : DecorationImage(image: FileImage(snapImage!)),
       ),
       child: GestureDetector(
         onPanDown: (data) {
