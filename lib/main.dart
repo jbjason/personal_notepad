@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:personal_notepad/provider/my_notesP.dart';
 import 'package:personal_notepad/screens/details_screen.dart';
 import 'package:personal_notepad/screens/home_screen.dart';
+import 'package:personal_notepad/screens/testing_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.purple,
         ),
-        home: const HomeScreen(),
+        home: const TestingScreen(),
         routes: {
           DetailsScreen.routeName: (ctx) => DetailsScreen(),
         },
