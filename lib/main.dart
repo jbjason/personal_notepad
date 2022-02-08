@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.purple,
         ),
-        home: const TestingScreen(),
+        home: const HomeScreen(),
         routes: {
           DetailsScreen.routeName: (ctx) => DetailsScreen(),
         },

@@ -15,7 +15,9 @@ import 'package:personal_notepad/widgets/details_widgets/image_preview.dart';
 import 'package:personal_notepad/widgets/common_widgets/buttonBlack.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/allowPaint_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/myCustomPainter.dart';
+import 'package:personal_notepad/widgets/home_widgets/pick_image.dart';
 import 'package:provider/provider.dart';
+import 'package:screenshot/screenshot.dart';
 
 class DetailsScreen extends StatefulWidget {
   static const routeName = '/details-screen';
@@ -29,8 +31,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
   bool isEnd = false, _isPaint = false;
   late Color selectedColor;
   late double strokeWidth;
+  final controller = ScreenshotController();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
+  var snapshotImage;
   File? image;
   String _id = '';
 
@@ -81,23 +85,36 @@ class _DetailsScreenState extends State<DetailsScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.bookmark_add),
-            onPressed: () {
+            onPressed: () async {
               if (_titleController.text.trim().isEmpty) {
                 print('Cant save Jb');
               } else {
-                productsData.addNote(MyNote(
-                  id: DateTime.now().toIso8601String(),
-                  title: _titleController.text.trim(),
-                  description: _descriptionController.text.trim(),
-                  // saving file img as String
-                  imageDir: image != null ? image.toString() : null,
-                  dateTime: DateTime.now(),
-                  points: initialPoints,
-                ));
-                Navigator.pop(context);
+                final descText = _descriptionController.text.trim();
+                if (initialPoints.isNotEmpty) {
+                  _descriptionController.text = ' ';
+                  //  setState(() => _isDrawing = true);
+                  final captureImage =
+                      await controller.captureFromWidget(drawingCanvas(size));
+                  //final loadImage = await takeSnapShot(captureImage);
+                  setState(() => snapshotImage = captureImage);
+                  print('jb \n jason');
+                  var s = snapshotImage.toString();
+                  print(s);
+                }
+                // productsData.addNote(MyNote(
+                //   id: DateTime.now().toIso8601String(),
+                //   title: _titleController.text.trim(),
+                //   description: descText,
+                //   // saving file img as String
+                //   imageDir: image != null ? image.toString() : null,
+                //   dateTime: DateTime.now(),
+                //   points: initialPoints,
+                // ));
+                //   Navigator.pop(context);
               }
             },
           ),
+          // delete button
           IconButton(
             icon: const Icon(CupertinoIcons.delete_solid),
             onPressed: () {
@@ -138,12 +155,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ),
                         // Gallery Button
                         InkWell(
-                          onTap: () => _pickImage(ImageSource.gallery),
+                          onTap: () async {
+                            final s = await pickImage(ImageSource.gallery);
+                            setState(() => image = s);
+                          },
                           child: GalleryButton(),
                         ),
                         // Camera Button
                         InkWell(
-                          onTap: () => _pickImage(ImageSource.camera),
+                          onTap: () async {
+                            final s = await pickImage(ImageSource.camera);
+                            setState(() => image = s);
+                          },
                           child: CameraButton(),
                         ),
                       ],
@@ -164,7 +187,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Container(
       height: size.height * .6,
       width: size.width,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        color: Colors.grey[900],
+        image: snapshotImage == null
+            ? DecorationImage(image: AssetImage('assets/brush.jpg'))
+            : DecorationImage(image: MemoryImage(snapshotImage)),
+      ),
       child: GestureDetector(
         onPanDown: (data) {
           !_isPaint
@@ -200,9 +229,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
           child: CustomPaint(
             painter: MyCustomPainter(points: initialPoints, isEnd: isEnd),
             // textFormField
-            child: DescriptionTextFormField(
-                descriptionController: _descriptionController,
-                isPaint: _isPaint),
+            // child: DescriptionTextFormField(
+            //     descriptionController: _descriptionController,
+            //     isPaint: _isPaint),
           ),
         ),
       ),
@@ -238,17 +267,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
             ),
           )
         : Container();
-  }
-
-  Future _pickImage(ImageSource source) async {
-    try {
-      final pickedImage = await ImagePicker().pickImage(source: source);
-      if (pickedImage == null) return;
-      final loadImage = File(pickedImage.path);
-      setState(() => image = loadImage);
-    } on PlatformException catch (error) {
-      print('Failed to pick image : $error');
-    }
   }
 
   void selectColor() {
