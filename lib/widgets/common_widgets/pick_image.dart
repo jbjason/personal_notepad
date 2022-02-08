@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 Future pickImage(ImageSource source) async {
   try {
     final pickedImage = await ImagePicker().pickImage(source: source);
+    // saving image to localStorage permanently
     if (pickedImage != null) {
       final directory = await getApplicationDocumentsDirectory();
       final name = basename(pickedImage.path);
@@ -20,6 +21,7 @@ Future pickImage(ImageSource source) async {
 
 Future takeSnapShot(var pickedImage, String id) async {
   // Unit8List image to File convertion
+   // & saving the snapshot to localStorage permanently
   try {
     final tempDir = await getApplicationDocumentsDirectory();
     File file = await File('${tempDir.path}/$id.png').create();
