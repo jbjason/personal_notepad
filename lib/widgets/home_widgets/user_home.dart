@@ -5,8 +5,8 @@ import 'package:personal_notepad/provider/my_notesP.dart';
 import 'package:personal_notepad/widgets/home_widgets/listitem_container.dart';
 import 'package:provider/provider.dart';
 
-class UserNotes extends StatelessWidget {
-  const UserNotes({Key? key}) : super(key: key);
+class UserHome extends StatelessWidget {
+  const UserHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,25 +26,36 @@ class UserNotes extends StatelessWidget {
             ),
           )
           // If items aren't available
-        : SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Lottie.asset('assets/hello.json', fit: BoxFit.cover,height: 300),
-                Text(
-                  'Opps!!',
-                  style: GoogleFonts.averiaGruesaLibre(
-                      fontSize: 38,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-                Text(
-                  'Notes aren\'t available right now ..',
-                  style:
-                      GoogleFonts.flamenco(fontSize: 18, color: Colors.white70),
-                ),
-              ],
+        : NoNotesAvailable();
+  }
+}
+
+class NoNotesAvailable extends StatelessWidget {
+  const NoNotesAvailable({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Lottie.asset('assets/hello.json', fit: BoxFit.cover,height: 300),
+            Text(
+              'Opps!!',
+              style: GoogleFonts.averiaGruesaLibre(
+                  fontSize: 38,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
-          );
+            Text(
+              'Notes aren\'t available right now ..',
+              style:
+                  GoogleFonts.flamenco(fontSize: 18, color: Colors.white70),
+            ),
+          ],
+        ),
+      );
   }
 }

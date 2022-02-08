@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
             delegate: AppBarDelegate(expandedHeight: size.height * .36),
           ),
           SliverToBoxAdapter(child: BodyTopParts()),
-          UserNotes(),
+          UserHome(),
           SliverToBoxAdapter(child: Placeholder(color: Colors.transparent)),
           // SliverToBoxAdapter(child: Placeholder(color: Colors.transparent)),
         ],

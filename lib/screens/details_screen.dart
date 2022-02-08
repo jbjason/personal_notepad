@@ -49,7 +49,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       final item = Provider.of<MyNotesP>(context, listen: false)
           .findItemById(id.toString());
       initialPoints = item.points;
-      image = formatImage(item.imageDir!);
+      image = item.imageDir != null ? formatImage(item.imageDir!) : null;
       _titleController.text = item.title;
       _descriptionController.text = item.description;
       _id = item.id;
