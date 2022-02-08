@@ -69,6 +69,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     final productsData = Provider.of<MyNotesP>(context);
     final size = MediaQuery.of(context).size;
+    final double canvasHeight = size.height * .6, canvasWidth = size.width;
     return Scaffold(
       backgroundColor: Colors.grey[850],
       appBar: AppBar(
@@ -91,8 +92,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 File? loadImage;
                 // initialPoints empty means no drawing has been done
                 if (initialPoints.isNotEmpty) {
-                  final captureImage =
-                      await controller.captureFromWidget(drawingCanvas(size));
+                  final captureImage = await controller.captureFromWidget(
+                      canvasInBackground(canvasHeight, canvasWidth));
                   loadImage = await takeSnapShot(captureImage, id);
                 }
                 productsData.addNote(MyNote(
@@ -130,7 +131,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               TtileTextFormField(titleController: _titleController),
               const SizedBox(height: 7),
               // drawing canvas & DescriptionTextField
-              Center(child: drawingCanvas(size)),
+              drawingCanvas(size, canvasHeight, canvasWidth),
               const SizedBox(height: 7),
               // button & constract buttons
               buttonAndStroke(size),
@@ -177,17 +178,43 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  Widget drawingCanvas(Size size) {
+  Widget drawingCanvas(Size size, double height, double width) {
+    // final height = size.height * .6;
+    // final width = size.width;
     return Container(
-      height: size.height * .6,
-      width: size.width,
+      height: height,
+      width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         color: Colors.grey[900],
         image: snapImage == null
-            ? DecorationImage(image: AssetImage('assets/background.png'))
-            : DecorationImage(image: FileImage(snapImage!)),
+            ? DecorationImage(
+                image: AssetImage('assets/background.png'), fit: BoxFit.cover)
+            : DecorationImage(image: FileImage(snapImage!), fit: BoxFit.fitHeight),
       ),
+      child: Stack(
+        children: [
+          canvasInBackground(height, width),
+          // textFormField
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: DescriptionTextFormField(
+              descriptionController: _descriptionController,
+              isPaint: _isPaint,
+              size: size,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget canvasInBackground(double height, double width) {
+    return Container(
+      height: height,
+      width: width,
       child: GestureDetector(
         onPanDown: (data) {
           !_isPaint
@@ -222,10 +249,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
           borderRadius: BorderRadius.circular(20),
           child: CustomPaint(
             painter: MyCustomPainter(points: initialPoints, isEnd: isEnd),
-            // textFormField
-            // child: DescriptionTextFormField(
-            //     descriptionController: _descriptionController,
-            //     isPaint: _isPaint),
           ),
         ),
       ),
@@ -333,6 +356,7 @@ class TtileTextFormField extends StatelessWidget {
 class DescriptionTextFormField extends StatelessWidget {
   const DescriptionTextFormField({
     Key? key,
+    required this.size,
     required TextEditingController descriptionController,
     required bool isPaint,
   })  : _descriptionController = descriptionController,
@@ -341,6 +365,7 @@ class DescriptionTextFormField extends StatelessWidget {
 
   final TextEditingController _descriptionController;
   final bool _isPaint;
+  final Size size;
 
   @override
   Widget build(BuildContext context) {
@@ -356,7 +381,7 @@ class DescriptionTextFormField extends StatelessWidget {
         style: TextStyle(color: Colors.white, fontSize: 20),
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.done,
-        maxLines: _isPaint ? 2 : 14,
+        maxLines: _isPaint ? 2 : 12,
         decoration: InputDecoration(
           hintText: 'Description',
           hintStyle: GoogleFonts.neucha(
