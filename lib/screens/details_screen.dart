@@ -108,17 +108,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
               }
             },
           ),
-          // delete button
-          IconButton(
-            icon: const Icon(CupertinoIcons.delete_solid,
-                color: Colors.white, size: 26),
-            onPressed: () {
-              if (_id.isNotEmpty) {
-                productsData.deleteItem(_id);
-                Navigator.of(context).pop();
-              }
-            },
-          ),
+          // delete button available if item  existed
+          _id.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(CupertinoIcons.delete_solid,
+                      color: Colors.white, size: 26),
+                  onPressed: () {
+                    if (_id.isNotEmpty) {
+                      productsData.deleteItem(_id);
+                      Navigator.of(context).pop();
+                    }
+                  },
+                )
+              : Container(),
           const SizedBox(width: 7),
         ],
       ),
@@ -322,7 +324,7 @@ class TtileTextFormField extends StatelessWidget {
         controller: _titleController,
         cursorColor: Colors.red,
         cursorHeight: 15,
-        cursorWidth: 3,
+        cursorWidth: 5,
         style: TextStyle(color: Colors.white, fontSize: 18),
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.done,
@@ -370,7 +372,7 @@ class DescriptionTextFormField extends StatelessWidget {
         readOnly: _isPaint ? true : false,
         cursorColor: Colors.red,
         cursorHeight: 15,
-        cursorWidth: 3,
+        cursorWidth: 5,
         style: TextStyle(color: Colors.white, fontSize: 20),
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.done,

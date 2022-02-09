@@ -67,7 +67,7 @@ class FloatingButtonAdd extends StatelessWidget {
           backgroundColor: Colors.black87,
           child: Container(
             decoration: BoxDecoration(shape: BoxShape.circle),
-            child: Icon(CupertinoIcons.pencil_ellipsis_rectangle,
+            child: Icon(CupertinoIcons.pencil_outline,
                 size: 40, color: Colors.white),
           ),
           onPressed: () {

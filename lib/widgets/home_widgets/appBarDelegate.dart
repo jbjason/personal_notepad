@@ -62,7 +62,7 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
       child: Opacity(
         opacity: disappear(shrinkOffset),
         child: Container(
-          padding: EdgeInsets.only(top: 25, bottom: 25, left: 45),
+          padding: EdgeInsets.all(22),
           decoration: BoxDecoration(
             color: Colors.grey[900],
             borderRadius: BorderRadius.only(
@@ -84,16 +84,18 @@ class AppBarDelegate extends SliverPersistentHeaderDelegate {
               ),
             ],
           ),
-          child: Text('Your Notes',
-              style: GoogleFonts.laBelleAurore(
-                textStyle: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white.withOpacity(0.8),
-                  letterSpacing: 1,
+          child: Center(
+            child: Text('Your Notes',
+                style: GoogleFonts.laBelleAurore(
+                  textStyle: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white.withOpacity(0.8),
+                    letterSpacing: 1,
+                  ),
                 ),
-              ),
-              textAlign: TextAlign.left),
+                textAlign: TextAlign.left),
+          ),
         ),
       ),
     );
