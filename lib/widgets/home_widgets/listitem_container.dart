@@ -42,7 +42,6 @@ class ListItemContainer extends StatelessWidget {
                             color: textColor,
                             fontSize: 16,
                             letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -55,8 +54,8 @@ class ListItemContainer extends StatelessWidget {
                         product.description,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3,
-                        style: GoogleFonts.architectsDaughter(
-                          textStyle: TextStyle(color: textColor, fontSize: 13),
+                        style: GoogleFonts.cinzel(
+                          textStyle: TextStyle(color: textColor, fontSize: 13,letterSpacing: 1.4),
                         ),
                       ),
                     ],
