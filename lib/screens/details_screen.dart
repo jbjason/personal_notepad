@@ -73,8 +73,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[850],
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        backgroundColor: Colors.grey[900],
         leading: IconButton(
           icon: const Icon(CupertinoIcons.arrow_left),
           onPressed: () {
@@ -129,15 +128,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 7),
               // TitleTextFormFiled
               TtileTextFormField(titleController: _titleController),
-              const SizedBox(height: 7),
               // drawing canvas & DescriptionTextField
               drawingCanvas(size, canvasHeight, canvasWidth),
               const SizedBox(height: 7),
               // button & constract buttons
               buttonAndStroke(size),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Container(
