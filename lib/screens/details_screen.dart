@@ -82,8 +82,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
           },
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.bookmark_add),
+          TextButton(
+            child: Image.asset('assets/save_icon48.png'),
             onPressed: () async {
               if (_titleController.text.trim().isEmpty)
                 print('Cant save Jb');
@@ -100,7 +100,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   id: id,
                   title: _titleController.text.trim(),
                   description: _descriptionController.text.trim(),
-                  // saving file img as String
+                  // saving file img & snapImg as String
                   imageDir: image != null ? image.toString() : null,
                   snapImage: loadImage != null ? loadImage.toString() : null,
                   dateTime: DateTime.now(),
@@ -111,7 +111,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ),
           // delete button
           IconButton(
-            icon: const Icon(CupertinoIcons.delete_solid),
+            icon: const Icon(CupertinoIcons.delete_solid,
+                color: Colors.white, size: 30),
             onPressed: () {
               if (_id.isNotEmpty) {
                 productsData.deleteItem(_id);
@@ -179,8 +180,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   Widget drawingCanvas(Size size, double height, double width) {
-    // final height = size.height * .6;
-    // final width = size.width;
     return Container(
       height: height,
       width: width,
@@ -190,7 +189,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
         image: snapImage == null
             ? DecorationImage(
                 image: AssetImage('assets/background.png'), fit: BoxFit.cover)
-            : DecorationImage(image: FileImage(snapImage!), fit: BoxFit.fitHeight),
+            : DecorationImage(
+                image: FileImage(snapImage!), fit: BoxFit.fitHeight),
       ),
       child: Stack(
         children: [
@@ -296,17 +296,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
             pickerColor: selectedColor,
             onColorChanged: (color) {
               setState(() => selectedColor = color);
+              Navigator.pop(context);
             },
           ),
         ),
-        actions: [
-          ElevatedButton(
-            child: const Text('Got it'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
       ),
     );
   }

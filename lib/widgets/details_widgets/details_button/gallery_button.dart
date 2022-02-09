@@ -9,9 +9,9 @@ class GalleryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NeumorphismButtonBlack(
-      padding: 20.0,
+      padding: 10.0,
       boxShape: BoxShape.rectangle,
-      widget: Icon(Icons.image_outlined, color: Colors.white, size: 20),
+      widget: Image.asset('assets/gallery_icon48.png'),
     );
   }
 }

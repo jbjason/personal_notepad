@@ -10,9 +10,9 @@ class CameraButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NeumorphismButtonBlack(
-      padding: 20.0,
+      padding: 10.0,
       boxShape: BoxShape.circle,
-      widget: Icon(CupertinoIcons.camera, color: Colors.white, size: 20),
+      widget: Image.asset('assets/camera_icon48.png'),
     );
   }
 }
