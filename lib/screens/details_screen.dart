@@ -35,6 +35,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final _descriptionController = TextEditingController();
   File? image, snapImage;
   String _id = '';
+   int a=1;
 
   @override
   void initState() {
@@ -47,7 +48,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final id = ModalRoute.of(context)!.settings.arguments;
-    if (id != null) {
+    if (id != null&& a==1) {
       final item = Provider.of<MyNotesP>(context, listen: false)
           .findItemById(id.toString());
       image = item.imageDir != null ? formatImage(item.imageDir!) : null;
@@ -55,7 +56,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
       _titleController.text = item.title;
       _descriptionController.text = item.description;
       _id = item.id;
+      // cz when deleting this findItemById is called again for Provider listening 
+      // & after deleting id is null so that findItemById(null id) causes error
+      a++;
     }
+    
   }
 
   @override
@@ -107,7 +112,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         'Title text can\'t be Empty..!',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.quintessential(
-                          color: Colors.black,
+                            color: Colors.black,
                             fontSize: 18,
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.w600),
@@ -144,10 +149,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   icon: const Icon(CupertinoIcons.delete_solid,
                       color: Colors.white, size: 26),
                   onPressed: () {
-                    if (_id.isNotEmpty) {
-                      productsData.deleteItem(_id);
-                      Navigator.of(context).pop();
-                    }
+                    productsData.deleteItem(_id);
+                    Navigator.pop(context);
                   },
                 )
               : Container(),
