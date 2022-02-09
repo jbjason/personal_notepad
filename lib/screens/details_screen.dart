@@ -112,7 +112,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           // delete button
           IconButton(
             icon: const Icon(CupertinoIcons.delete_solid,
-                color: Colors.white, size: 30),
+                color: Colors.white, size: 26),
             onPressed: () {
               if (_id.isNotEmpty) {
                 productsData.deleteItem(_id);
@@ -120,6 +120,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               }
             },
           ),
+          const SizedBox(width: 7),
         ],
       ),
       body: SingleChildScrollView(

@@ -9,7 +9,7 @@ class GalleryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NeumorphismButtonBlack(
-      padding: 10.0,
+      padding: 8.0,
       boxShape: BoxShape.rectangle,
       widget: Image.asset('assets/gallery_icon48.png'),
     );
