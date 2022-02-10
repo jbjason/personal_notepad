@@ -35,7 +35,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final _descriptionController = TextEditingController();
   File? image, snapImage;
   String _id = '';
-   int a=1;
+  int f = 1;
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final id = ModalRoute.of(context)!.settings.arguments;
-    if (id != null&& a==1) {
+    if (id != null && f == 1) {
       final item = Provider.of<MyNotesP>(context, listen: false)
           .findItemById(id.toString());
       image = item.imageDir != null ? formatImage(item.imageDir!) : null;
@@ -56,11 +56,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
       _titleController.text = item.title;
       _descriptionController.text = item.description;
       _id = item.id;
-      // cz when deleting this findItemById is called again for Provider listening 
+      // cz when deleting this findItemById is called again for Provider listening
       // & after deleting id is null so that findItemById(null id) causes error
-      a++;
+      f++;
     }
-    
   }
 
   @override
@@ -90,34 +89,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
             child: Image.asset('assets/save_icon48.png'),
             onPressed: () async {
               if (_titleController.text.trim().isEmpty) {
-                final snackBar = SnackBar(
-                  backgroundColor: Colors.transparent,
-                  duration: Duration(seconds: 2),
-                  behavior: SnackBarBehavior.floating,
-                  shape: StadiumBorder(),
-                  content: Container(
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        gradient: LinearGradient(
-                            colors: [
-                              Colors.grey[800]!,
-                              Colors.grey,
-                              Colors.grey[300]!,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight),
-                      ),
-                      child: Text(
-                        'Title text can\'t be Empty..!',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quintessential(
-                            color: Colors.black,
-                            fontSize: 18,
-                            letterSpacing: 1.5,
-                            fontWeight: FontWeight.w600),
-                      )),
-                );
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(snackBar);
@@ -218,19 +189,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Container(
       height: height,
       width: width,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        color: Colors.grey[900],
-        image: snapImage == null
-            ? DecorationImage(
-                image: AssetImage('assets/background.png'), fit: BoxFit.cover)
-            : DecorationImage(
-                image: FileImage(snapImage!), fit: BoxFit.fitHeight),
-      ),
       child: Stack(
         children: [
           canvasInBackground(height, width),
-          // textFormField
+          // Description  textFormField
           Positioned(
             top: 0,
             left: 0,
@@ -250,6 +212,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Container(
       height: height,
       width: width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        color: Colors.grey[900],
+        image: snapImage == null
+            ? DecorationImage(
+                image: AssetImage('assets/background.png'), fit: BoxFit.cover)
+            : DecorationImage(
+                image: FileImage(snapImage!), fit: BoxFit.fitHeight),
+      ),
       child: GestureDetector(
         onPanDown: (data) {
           !_isPaint
@@ -312,7 +283,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () => setState(() => initialPoints.clear()),
+                  onPressed: () => setState(() {
+                    initialPoints.clear();
+                    snapImage = null;
+                  }),
                   icon: Icon(Icons.layers_clear, color: selectedColor),
                 ),
               ],
@@ -338,6 +312,32 @@ class _DetailsScreenState extends State<DetailsScreen> {
       ),
     );
   }
+
+  final snackBar = SnackBar(
+    backgroundColor: Colors.transparent,
+    duration: Duration(seconds: 2),
+    behavior: SnackBarBehavior.floating,
+    shape: StadiumBorder(),
+    content: Container(
+        padding: EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          gradient: LinearGradient(colors: [
+            Colors.grey[800]!,
+            Colors.grey,
+            Colors.grey[300]!,
+          ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+        ),
+        child: Text(
+          'Title text can\'t be Empty..!',
+          textAlign: TextAlign.center,
+          style: GoogleFonts.quintessential(
+              color: Colors.black,
+              fontSize: 18,
+              letterSpacing: 1.5,
+              fontWeight: FontWeight.w600),
+        )),
+  );
 }
 
 class TtileTextFormField extends StatelessWidget {
