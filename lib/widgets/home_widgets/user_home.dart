@@ -25,14 +25,15 @@ class _UserHomeState extends State<UserHome> {
     final productsData = Provider.of<MyNotesP>(context, listen: true);
     return ValueListenableBuilder<Box<MyNote>>(
         valueListenable: Hive.box<MyNote>('myNote').listenable(),
-        builder: (context, box, _) {
-          final transactions = box.values.toList().cast<MyNote>();
+        builder: (context, contactBox, _) {
+          final transactions = contactBox.values.toList().cast<MyNote>();
           productsData.initializeItems(transactions);
           return transactions.length == 0
               ? NoNotesAvailable() // If items aren't available
               : SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
+                      // final contact =contactBox.getAt(index) as MyNote; // single box
                       return Padding(
                         padding: EdgeInsets.only(
                             top: 15, bottom: 15, right: 15, left: 15),
