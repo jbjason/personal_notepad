@@ -8,7 +8,6 @@ import 'package:personal_notepad/models/drawing_area.dart';
 import 'package:personal_notepad/models/my_note.dart';
 import 'package:personal_notepad/provider/my_notesP.dart';
 import 'package:personal_notepad/widgets/common_widgets/format_image.dart';
-import 'package:personal_notepad/widgets/details_widgets/textFeilds/description_textField.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/camera_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/gallery_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/image_preview.dart';
@@ -16,6 +15,7 @@ import 'package:personal_notepad/widgets/common_widgets/buttonBlack.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/allowPaint_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/myCustomPainter.dart';
 import 'package:personal_notepad/widgets/common_widgets/pick_image.dart';
+import 'package:personal_notepad/widgets/details_widgets/textFeilds/descriptionTextField.dart';
 import 'package:personal_notepad/widgets/details_widgets/textFeilds/title_textField.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -196,14 +196,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
           canvasInBackground(height, width),
           // Description  textFormField
           Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: DescriptionTextFormField(
-              descriptionController: _descriptionController,
-              isPaint: _isPaint,
-            ),
-          )
+              top: 0,
+              left: 0,
+              right: 0,
+              child: DescriptionTextFormField(
+                  descriptionController: _descriptionController,
+                  isPaint: _isPaint))
         ],
       ),
     );
