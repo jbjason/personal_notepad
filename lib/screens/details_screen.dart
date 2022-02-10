@@ -201,7 +201,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               right: 0,
               child: DescriptionTextFormField(
                   descriptionController: _descriptionController,
-                  isPaint: _isPaint))
+                  isPaint: _isPaint),)
         ],
       ),
     );
