@@ -38,6 +38,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   File? image, snapImage;
   String _id = '';
   int f = 1;
+  late DateTime _dateTime;
 
   @override
   void initState() {
@@ -58,6 +59,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       _titleController.text = item.title;
       _descriptionController.text = item.description;
       _id = item.id;
+      _dateTime = item.dateTime;
       // cz when deleting this findItemById is called again for Provider listening
       // & after deleting id is null so that findItemById(null id) causes error
       f++;
@@ -97,36 +99,48 @@ class _DetailsScreenState extends State<DetailsScreen> {
               } else {
                 final id = DateTime.now().toIso8601String();
                 File? loadImage;
-                // initialPoints empty means no drawing has been done
                 if (initialPoints.isNotEmpty) {
+                  // initialPoints empty means no drawing has been done
                   final captureImage = await controller.captureFromWidget(
                       canvasInBackground(canvasHeight, canvasWidth));
                   loadImage = await takeSnapShot(captureImage, id);
                 }
-                productsData.addNote(MyNote(
-                  id: id,
-                  title: _titleController.text.trim(),
-                  description: _descriptionController.text.trim(),
-                  // saving file img & snapImg as String
-                  imageDir: image != null ? image.toString() : null,
-                  snapImage: loadImage != null ? loadImage.toString() : null,
-                  dateTime: DateTime.now(),
-                ));
+                if (_id.isEmpty) {
+                  productsData.addNote(MyNote(
+                    id: id,
+                    title: _titleController.text.trim(),
+                    description: _descriptionController.text.trim(),
+                    // saving file img & snapImg as String
+                    imageDir: image != null ? image.toString() : null,
+                    snapImage: loadImage != null ? loadImage.toString() : null,
+                    dateTime: DateTime.now(),
+                  ));
+                } else if (_id.isNotEmpty) {
+                  productsData.updateItem(MyNote(
+                    id: _id,
+                    title: _titleController.text.trim(),
+                    description: _descriptionController.text.trim(),
+                    imageDir: image != null ? image.toString() : null,
+                    snapImage: loadImage != null ? loadImage.toString() : null,
+                    dateTime: _dateTime,
+                  ));
+                }
                 Navigator.pop(context);
               }
             },
           ),
           // delete button available if item  existed
-          _id.isNotEmpty
-              ? IconButton(
+          _id.isEmpty
+              ? Container()
+              : IconButton(
                   icon: const Icon(CupertinoIcons.delete_solid,
                       color: Colors.white, size: 26),
                   onPressed: () {
                     productsData.deleteItem(_id);
                     Navigator.pop(context);
                   },
-                )
-              : Container(),
+                ),
+
           const SizedBox(width: 7),
         ],
       ),

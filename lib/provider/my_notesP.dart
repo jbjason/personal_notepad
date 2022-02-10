@@ -1,30 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hive/hive.dart';
 import 'package:personal_notepad/models/my_note.dart';
 
 class MyNotesP with ChangeNotifier {
-  final List<MyNote> _items = [
-    MyNote(
-      id: DateTime.now().toIso8601String(),
-      title: 'My First Note',
-      description:
-          'Descriptive Text is a text which says what a person or a thing is like. Its purpose is to describe and reveal a particular person, place, or thing. ... So, it can be said that this descriptive text is a text that explains about whether a person or an object is like, whether its form, its properties, its amount and others ',
-      snapImage:null,
-      imageDir: null,
-      dateTime: DateTime.now(),
-    ),
-    MyNote(
-      id: DateTime.now().toIso8601String(),
-      title: 'My Second Note',
-      description:
-          'Descriptive Text is a text which says what a person or a thing is like. Its purpose is to describe and reveal a particular person, place, or thing. ... So, it can be said that this descriptive text is a text that explains about whether a person or an object is like, whether its form, its properties, its amount and others ',
-      snapImage:null,
-      imageDir: null,
-      dateTime: DateTime.now(),
-    ),
-  ];
+  List<MyNote> _items = [];
 
   List<MyNote> get items {
     return [..._items];
+  }
+
+  void initializeItems(List<MyNote> mynotes) {
+    _items = [...mynotes];
   }
 
   MyNote findItemById(String id) {
@@ -33,12 +19,17 @@ class MyNotesP with ChangeNotifier {
 
   void deleteItem(String id) {
     final exIndex = _items.indexWhere((element) => element.id == id);
+    final MyNote myNote = _items[exIndex];
+    myNote.delete();
     _items.removeAt(exIndex);
-    notifyListeners();
+  }
+
+  void updateItem(MyNote myNote) async {
+    final exIndex = _items.indexWhere((element) => element.id == myNote.id);
+    await Hive.box<MyNote>('myNote').putAt(exIndex, myNote);
   }
 
   void addNote(MyNote myNote) {
-    _items.add(myNote);
-    notifyListeners();
+    Hive.box<MyNote>('myNote').add(myNote);
   }
 }
