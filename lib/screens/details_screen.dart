@@ -8,6 +8,7 @@ import 'package:personal_notepad/models/drawing_area.dart';
 import 'package:personal_notepad/models/my_note.dart';
 import 'package:personal_notepad/provider/my_notesP.dart';
 import 'package:personal_notepad/widgets/common_widgets/format_image.dart';
+import 'package:personal_notepad/widgets/details_widgets/textFeilds/description_textField.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/camera_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/gallery_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/image_preview.dart';
@@ -15,6 +16,7 @@ import 'package:personal_notepad/widgets/common_widgets/buttonBlack.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/allowPaint_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/myCustomPainter.dart';
 import 'package:personal_notepad/widgets/common_widgets/pick_image.dart';
+import 'package:personal_notepad/widgets/details_widgets/textFeilds/title_textField.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -136,7 +138,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             children: [
               const SizedBox(height: 7),
               // TitleTextFormFiled
-              TtileTextFormField(titleController: _titleController),
+              TitleTextFormField(titleController: _titleController),
               // drawing canvas & DescriptionTextField
               drawingCanvas(size, canvasHeight, canvasWidth),
               const SizedBox(height: 7),
@@ -200,7 +202,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
             child: DescriptionTextFormField(
               descriptionController: _descriptionController,
               isPaint: _isPaint,
-              size: size,
             ),
           )
         ],
@@ -338,94 +339,4 @@ class _DetailsScreenState extends State<DetailsScreen> {
               fontWeight: FontWeight.w600),
         )),
   );
-}
-
-class TtileTextFormField extends StatelessWidget {
-  const TtileTextFormField({
-    Key? key,
-    required TextEditingController titleController,
-  })  : _titleController = titleController,
-        super(key: key);
-  final TextEditingController _titleController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-      child: TextFormField(
-        //initialValue: title,
-        controller: _titleController,
-        cursorColor: Colors.red,
-        cursorHeight: 15,
-        cursorWidth: 5,
-        style: TextStyle(color: Colors.white, fontSize: 18),
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.done,
-        decoration: InputDecoration(
-          hintText: 'Title',
-          hintStyle: GoogleFonts.neucha(
-            textStyle: TextStyle(color: Colors.white70, letterSpacing: 3.5),
-          ),
-          filled: true,
-          fillColor: Colors.grey[900],
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class DescriptionTextFormField extends StatelessWidget {
-  const DescriptionTextFormField({
-    Key? key,
-    required this.size,
-    required TextEditingController descriptionController,
-    required bool isPaint,
-  })  : _descriptionController = descriptionController,
-        _isPaint = isPaint,
-        super(key: key);
-
-  final TextEditingController _descriptionController;
-  final bool _isPaint;
-  final Size size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-      child: TextFormField(
-        // initialValue: description,
-        controller: _descriptionController,
-        readOnly: _isPaint ? true : false,
-        cursorColor: Colors.red,
-        cursorHeight: 15,
-        cursorWidth: 5,
-        style: TextStyle(color: Colors.white, fontSize: 20),
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.done,
-        maxLines: _isPaint ? 2 : 12,
-        decoration: InputDecoration(
-          hintText: 'Description',
-          hintStyle: GoogleFonts.neucha(
-              textStyle: TextStyle(color: Colors.white54, letterSpacing: 2)),
-          focusColor: Colors.red,
-          filled: true,
-          fillColor: Colors.transparent,
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-          ),
-        ),
-      ),
-    );
-  }
 }
