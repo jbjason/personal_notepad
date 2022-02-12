@@ -79,7 +79,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final size = MediaQuery.of(context).size;
     final double canvasHeight = size.height * .6, canvasWidth = size.width;
     return Scaffold(
-      backgroundColor: Colors.grey[850],
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
         leading: IconButton(

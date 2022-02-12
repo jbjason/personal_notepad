@@ -12,7 +12,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.grey[850],
       body: CustomScrollView(
         slivers: [
           SliverPersistentHeader(
@@ -22,7 +21,7 @@ class HomeScreen extends StatelessWidget {
           SliverToBoxAdapter(child: BodyTopParts()),
           UserHome(),
           SliverToBoxAdapter(child: Placeholder(color: Colors.transparent)),
-          // SliverToBoxAdapter(child: Placeholder(color: Colors.transparent)),
+          SliverToBoxAdapter(child: Placeholder(color: Colors.transparent)),
         ],
       ),
       floatingActionButton: FloatingButtonAdd(),
