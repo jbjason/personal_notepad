@@ -75,124 +75,27 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<MyNotesP>(context);
     final size = MediaQuery.of(context).size;
     final double canvasHeight = size.height * .6, canvasWidth = size.width;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.grey[900],
-        leading: IconButton(
-          icon: const Icon(CupertinoIcons.arrow_left),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        actions: [
-          TextButton(
-            child: Image.asset('assets/save_icon48.png'),
-            onPressed: () async {
-              if (_titleController.text.trim().isEmpty) {
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(snackBar);
-              } else {
-                final id = DateTime.now().toIso8601String();
-                File? loadImage;
-                if (initialPoints.isNotEmpty) {
-                  // initialPoints empty means no drawing has been done
-                  final captureImage = await controller.captureFromWidget(
-                      canvasInBackground(canvasHeight, canvasWidth));
-                  loadImage = await takeSnapShot(captureImage, id);
-                }
-                if (_id.isEmpty) {
-                  productsData.addNote(MyNote(
-                    id: id,
-                    title: _titleController.text.trim(),
-                    description: _descriptionController.text.trim(),
-                    // saving file img & snapImg as String
-                    imageDir: image != null ? image.toString() : null,
-                    snapImage: loadImage != null ? loadImage.toString() : null,
-                    dateTime: DateTime.now(),
-                  ));
-                } else if (_id.isNotEmpty) {
-                  productsData.updateItem(MyNote(
-                    id: _id,
-                    title: _titleController.text.trim(),
-                    description: _descriptionController.text.trim(),
-                    imageDir: image != null ? image.toString() : null,
-                    snapImage: loadImage != null ? loadImage.toString() : null,
-                    dateTime: _dateTime,
-                  ));
-                }
-                Navigator.pop(context);
-              }
-            },
-          ),
-          // delete button available if item  existed
-          _id.isEmpty
-              ? Container()
-              : IconButton(
-                  icon: const Icon(CupertinoIcons.delete_solid,
-                      color: Colors.white, size: 26),
-                  onPressed: () {
-                    productsData.deleteItem(_id);
-                    Navigator.pop(context);
-                  },
-                ),
-
-          const SizedBox(width: 7),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 15, left: 5, right: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: MediaQuery.of(context).viewPadding.top),
+              _buildAppBar(context, canvasHeight, canvasWidth),
               const SizedBox(height: 7),
               // TitleTextFormFiled
               TitleTextFormField(titleController: _titleController),
               // drawing canvas & DescriptionTextField
-              drawingCanvas(size, canvasHeight, canvasWidth),
+              _drawingCanvas(size, canvasHeight, canvasWidth),
               const SizedBox(height: 7),
               // button & constract buttons
-              buttonAndStroke(size),
+              _buttonAndStroke(size),
               const SizedBox(height: 10),
-              Row(
-                children: [
-                  Container(
-                    width: size.width * .6,
-                    child: Wrap(
-                      spacing: 7,
-                      children: [
-                        //  Paint Button
-                        InkWell(
-                          onTap: () => setState(() => _isPaint = !_isPaint),
-                          child: AllowPaintAndTextButton(isPaint: _isPaint),
-                        ),
-                        // Gallery Button
-                        InkWell(
-                          onTap: () async {
-                            final s = await pickImage(ImageSource.gallery);
-                            setState(() => image = s);
-                          },
-                          child: GalleryButton(),
-                        ),
-                        // Camera Button
-                        InkWell(
-                          onTap: () async {
-                            final s = await pickImage(ImageSource.camera);
-                            setState(() => image = s);
-                          },
-                          child: CameraButton(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Image Preview
-                  ImagePreviewContainer(size: size, image: image),
-                ],
-              ),
+              _selectThreeButtons(size),
             ],
           ),
         ),
@@ -200,13 +103,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  Widget drawingCanvas(Size size, double height, double width) {
+  Widget _drawingCanvas(Size size, double height, double width) {
     return Container(
       height: height,
       width: width,
       child: Stack(
         children: [
-          canvasInBackground(height, width),
+          _canvasInBackground(height, width),
           // Description  textFormField
           Positioned(
             top: 0,
@@ -221,7 +124,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  Widget canvasInBackground(double height, double width) {
+  Widget _canvasInBackground(double height, double width) {
     return Container(
       height: height,
       width: width,
@@ -274,7 +177,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  Widget buttonAndStroke(Size size) {
+  Widget _buttonAndStroke(Size size) {
     return _isPaint
         ? NeumorphismButtonBlack(
             boxShape: BoxShape.rectangle,
@@ -306,6 +209,125 @@ class _DetailsScreenState extends State<DetailsScreen> {
             ),
           )
         : Container();
+  }
+
+  Widget _selectThreeButtons(Size size) {
+    return Row(
+      children: [
+        Container(
+          width: size.width * .6,
+          child: Wrap(
+            spacing: 7,
+            children: [
+              //  Paint Button
+              InkWell(
+                onTap: () => setState(() => _isPaint = !_isPaint),
+                child: AllowPaintAndTextButton(isPaint: _isPaint),
+              ),
+              // Gallery Button
+              InkWell(
+                onTap: () async {
+                  final s = await pickImage(ImageSource.gallery);
+                  setState(() => image = s);
+                },
+                child: GalleryButton(),
+              ),
+              // Camera Button
+              InkWell(
+                onTap: () async {
+                  final s = await pickImage(ImageSource.camera);
+                  setState(() => image = s);
+                },
+                child: CameraButton(),
+              ),
+            ],
+          ),
+        ),
+        // Image Preview
+        ImagePreviewContainer(size: size, image: image),
+      ],
+    );
+  }
+
+  Widget _buildAppBar(
+      BuildContext context, double canvasHeight, double canvasWidth) {
+    final productsData = Provider.of<MyNotesP>(context);
+    return Container(
+      height: kToolbarHeight,
+      color: Colors.grey[900],
+      child: Row(
+        children: [
+          IconButton(
+            icon: const Icon(CupertinoIcons.arrow_left, color: Colors.white),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          const Spacer(),
+          TextButton(
+            child: Image.asset('assets/save_icon48.png'),
+            onPressed: () async {
+              if (_titleController.text.trim().isEmpty) {
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(snackBar);
+              } else {
+                final id = DateTime.now().toIso8601String();
+                File? loadImage;
+                // initialPoints empty means no drawing has been done
+                if (initialPoints.isNotEmpty) {
+                  final captureImage = await controller.captureFromWidget(
+                      _canvasInBackground(canvasHeight, canvasWidth));
+                  loadImage = await takeSnapShot(captureImage, id);
+                }
+                productsData.addNote(MyNote(
+                  id: id,
+                  title: _titleController.text.trim(),
+                  description: _descriptionController.text.trim(),
+                  // saving file img & snapImg as String
+                  imageDir: image != null ? image.toString() : null,
+                  snapImage: loadImage != null ? loadImage.toString() : null,
+                  dateTime: DateTime.now(),
+                ));
+                Navigator.pop(context);
+              }
+            },
+          ),
+          // delete button available if item  existed
+          _id.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(CupertinoIcons.delete_solid,
+                      color: Colors.white, size: 26),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (c) => CupertinoAlertDialog(
+                        title:
+                            const Text("Are you sure wanna delete this note ?"),
+                        actions: [
+                          CupertinoDialogAction(
+                            child: const Text("Cancel"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          CupertinoDialogAction(
+                            child: const Text("OK"),
+                            onPressed: () async {
+                              productsData.deleteItem(_id);
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                )
+              : Container(),
+          const SizedBox(width: 7),
+        ],
+      ),
+    );
   }
 
   void selectColor() {
