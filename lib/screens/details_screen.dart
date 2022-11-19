@@ -309,6 +309,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             onPressed: () async {
                               productsData.deleteItem(_id);
                               Navigator.pop(context);
+                              Navigator.pop(context);
                             },
                           ),
                         ],
