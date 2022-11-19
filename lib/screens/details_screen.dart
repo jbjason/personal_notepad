@@ -67,13 +67,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   @override
-  void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final double canvasHeight = size.height * .6, canvasWidth = size.width;
@@ -373,4 +366,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
               fontWeight: FontWeight.w600),
         )),
   );
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
 }
