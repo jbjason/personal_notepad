@@ -2,12 +2,13 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:personal_notepad/models/constants.dart';
 import 'package:personal_notepad/models/drawing_area.dart';
 import 'package:personal_notepad/models/my_note.dart';
 import 'package:personal_notepad/provider/my_notesP.dart';
 import 'package:personal_notepad/widgets/common_widgets/format_image.dart';
+import 'package:personal_notepad/widgets/details_widgets/delete_note_icon.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/camera_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_button/gallery_button.dart';
 import 'package:personal_notepad/widgets/details_widgets/image_preview.dart';
@@ -33,10 +34,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
   late Color selectedColor;
   late double strokeWidth;
   final controller = ScreenshotController();
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
   File? image, snapImage;
-  String _id = '';
+  String _idKey = '';
   int f = 1;
   late DateTime _dateTime;
 
@@ -56,14 +57,32 @@ class _DetailsScreenState extends State<DetailsScreen> {
           .findItemById(id.toString());
       image = item.imageDir != null ? formatImage(item.imageDir!) : null;
       snapImage = item.snapImage != null ? formatImage(item.snapImage!) : null;
-      _titleController.text = item.title;
-      _descriptionController.text = item.description;
-      _id = item.id;
+      titleController.text = item.title;
+      descriptionController.text = item.description;
+      _idKey = item.id;
       _dateTime = item.dateTime;
       // cz when deleting this findItemById is called again for Provider listening
       // & after deleting id is null so that findItemById(null id) causes error
       f++;
     }
+  }
+
+  void selectColor() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Pick a color!'),
+        content: SingleChildScrollView(
+          child: BlockPicker(
+            pickerColor: selectedColor,
+            onColorChanged: (color) {
+              setState(() => selectedColor = color);
+              Navigator.pop(context);
+            },
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -78,12 +97,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: MediaQuery.of(context).viewPadding.top),
-              _buildAppBar(context, canvasHeight, canvasWidth),
+              // AppBar
+              DetailsAppBar(
+                canvasHeight: canvasHeight,
+                canvasWidth: canvasWidth,
+                titleController: titleController,
+                descriptionController: descriptionController,
+                controller: controller,
+                initialPoints: initialPoints,
+                canvasInBackground: canvasInBackground(),
+                image: image,
+                idKey: _idKey,
+              ),
               const SizedBox(height: 7),
               // TitleTextFormFiled
-              TitleTextFormField(titleController: _titleController),
+              TitleTextFormField(titleController: titleController),
               // drawing canvas & DescriptionTextField
-              _drawingCanvas(size, canvasHeight, canvasWidth),
+              _drawingCanvas(canvasHeight, canvasWidth),
               const SizedBox(height: 7),
               // button & constract buttons
               _buttonAndStroke(size),
@@ -96,28 +126,31 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  Widget _drawingCanvas(Size size, double height, double width) {
+  Widget _drawingCanvas(double height, double width) {
     return Container(
       height: height,
       width: width,
       child: Stack(
         children: [
-          _canvasInBackground(height, width),
+          canvasInBackground(),
           // Description  textFormField
           Positioned(
             top: 0,
             left: 0,
             right: 0,
             child: DescriptionTextFormField(
-                descriptionController: _descriptionController,
-                isPaint: _isPaint),
+              descriptionController: descriptionController,
+              isPaint: _isPaint,
+            ),
           )
         ],
       ),
     );
   }
 
-  Widget _canvasInBackground(double height, double width) {
+  Widget canvasInBackground() {
+    final size = MediaQuery.of(context).size;
+    final height = size.height * .6, width = size.width;
     return Container(
       height: height,
       width: width,
@@ -242,8 +275,39 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  Widget _buildAppBar(
-      BuildContext context, double canvasHeight, double canvasWidth) {
+  @override
+  void dispose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
+}
+
+class DetailsAppBar extends StatelessWidget {
+  const DetailsAppBar(
+      {Key? key,
+      required this.canvasHeight,
+      required this.canvasWidth,
+      required this.titleController,
+      required this.descriptionController,
+      required this.controller,
+      required this.initialPoints,
+      required this.canvasInBackground,
+      required this.image,
+      required this.idKey})
+      : super(key: key);
+  final double canvasHeight;
+  final double canvasWidth;
+  final TextEditingController titleController;
+  final TextEditingController descriptionController;
+  final ScreenshotController controller;
+  final List<DrawingArea> initialPoints;
+  final Widget canvasInBackground;
+  final File? image;
+  final String idKey;
+
+  @override
+  Widget build(BuildContext context) {
     final productsData = Provider.of<MyNotesP>(context);
     return Container(
       height: kToolbarHeight,
@@ -257,10 +321,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
             },
           ),
           const Spacer(),
+          // Save Icon
           TextButton(
             child: Image.asset('assets/save_icon48.png'),
             onPressed: () async {
-              if (_titleController.text.trim().isEmpty) {
+              if (titleController.text.trim().isEmpty) {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(snackBar);
@@ -269,14 +334,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 File? loadImage;
                 // initialPoints empty means no drawing has been done
                 if (initialPoints.isNotEmpty) {
-                  final captureImage = await controller.captureFromWidget(
-                      _canvasInBackground(canvasHeight, canvasWidth));
+                  final captureImage =
+                      await controller.captureFromWidget(canvasInBackground);
+                  // converting Uni8List to File image & saving it
                   loadImage = await takeSnapShot(captureImage, id);
                 }
                 productsData.addNote(MyNote(
                   id: id,
-                  title: _titleController.text.trim(),
-                  description: _descriptionController.text.trim(),
+                  title: titleController.text.trim(),
+                  description: descriptionController.text.trim(),
                   // saving file img & snapImg as String
                   imageDir: image != null ? image.toString() : null,
                   snapImage: loadImage != null ? loadImage.toString() : null,
@@ -287,90 +353,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
             },
           ),
           // delete button available if item  existed
-          _id.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(CupertinoIcons.delete_solid,
-                      color: Colors.white, size: 26),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (c) => CupertinoAlertDialog(
-                        title:
-                            const Text("Are you sure wanna delete this note ?"),
-                        actions: [
-                          CupertinoDialogAction(
-                            child: const Text("Cancel"),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                          CupertinoDialogAction(
-                            child: const Text("OK"),
-                            onPressed: () async {
-                              productsData.deleteItem(_id);
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                )
+          idKey.isNotEmpty
+              ? DeleteNoteIcon(productsData: productsData, id: idKey)
               : Container(),
           const SizedBox(width: 7),
         ],
       ),
     );
-  }
-
-  void selectColor() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Pick a color!'),
-        content: SingleChildScrollView(
-          child: BlockPicker(
-            pickerColor: selectedColor,
-            onColorChanged: (color) {
-              setState(() => selectedColor = color);
-              Navigator.pop(context);
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  final snackBar = SnackBar(
-    backgroundColor: Colors.transparent,
-    duration: Duration(seconds: 2),
-    behavior: SnackBarBehavior.floating,
-    shape: StadiumBorder(),
-    content: Container(
-        padding: EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          gradient: LinearGradient(colors: [
-            Colors.grey[800]!,
-            Colors.grey,
-            Colors.grey[300]!,
-          ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-        ),
-        child: Text(
-          'Title text can\'t be Empty..!',
-          textAlign: TextAlign.center,
-          style: GoogleFonts.quintessential(
-              color: Colors.black,
-              fontSize: 18,
-              letterSpacing: 1.5,
-              fontWeight: FontWeight.w600),
-        )),
-  );
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    super.dispose();
   }
 }
