@@ -6,8 +6,8 @@ import 'package:personal_notepad/models/drawing_area.dart';
 import 'package:personal_notepad/provider/my_notesP.dart';
 import 'package:personal_notepad/widgets/common_widgets/format_image.dart';
 import 'package:personal_notepad/widgets/details_widgets/background_canvas.dart';
+import 'package:personal_notepad/widgets/details_widgets/button_and_stroke.dart';
 import 'package:personal_notepad/widgets/details_widgets/details_appbar.dart';
-import 'package:personal_notepad/widgets/common_widgets/buttonBlack.dart';
 import 'package:personal_notepad/widgets/common_widgets/pick_image.dart';
 import 'package:personal_notepad/widgets/details_widgets/image_source_buttons.dart';
 import 'package:personal_notepad/widgets/details_widgets/textFeilds/descriptionTextField.dart';
@@ -23,17 +23,17 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  List<DrawingArea> initialPoints = [];
-  bool isEnd = false, _isPaint = false;
-  late Color selectedColor;
-  late double strokeWidth;
   final controller = ScreenshotController();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
+  List<DrawingArea> initialPoints = [];
+  bool isEnd = false, _isPaint = false;
+  late DateTime dateTime_;
+  late Color selectedColor;
+  late double strokeWidth;
   File? image, snapImage;
   String _idKey = '';
-  int f = 1;
-  late DateTime _dateTime;
+  int flag = 1;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final id = ModalRoute.of(context)!.settings.arguments;
-    if (id != null && f == 1) {
+    if (id != null && flag == 1) {
       final item = Provider.of<MyNotesP>(context, listen: false)
           .findItemById(id.toString());
       image = item.imageDir != null ? formatImage(item.imageDir!) : null;
@@ -54,10 +54,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
       titleController.text = item.title;
       descriptionController.text = item.description;
       _idKey = item.id;
-      _dateTime = item.dateTime;
+      dateTime_ = item.dateTime;
       // cz when deleting this findItemById is called again for Provider listening
       // & after deleting id is null so that findItemById(null id) causes error
-      f++;
+      flag++;
     }
   }
 
@@ -110,8 +110,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
               _drawingCanvas(canvasHeight, canvasWidth),
               const SizedBox(height: 7),
               // button & constract buttons
-              _buttonAndStroke(size),
+              ButtonAndStroke(
+                selectColor: selectColor,
+                clearCanvas: _clearCanvas,
+                changeStrokeWidth: _changeStrokeWidth,
+                selectedColor: selectedColor,
+                strokeWidth: strokeWidth,
+                isPaint: _isPaint,
+              ),
               const SizedBox(height: 10),
+              // image, gallery, isPaint button & captured image container
               ImageSourceButtons(
                 isPaint: _isPaint,
                 enableIsPaint: _enableIsPaint,
@@ -148,40 +156,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  Widget _buttonAndStroke(Size size) {
-    return _isPaint
-        ? NeumorphismButtonBlack(
-            boxShape: BoxShape.rectangle,
-            padding: 3.0,
-            widget: Row(
-              children: [
-                IconButton(
-                    onPressed: () => selectColor(),
-                    icon: Icon(Icons.color_lens, color: selectedColor)),
-                Expanded(
-                  child: Slider(
-                    min: 3.0,
-                    max: 10.0,
-                    activeColor: selectedColor,
-                    value: strokeWidth,
-                    onChanged: (val) {
-                      setState(() => strokeWidth = val);
-                    },
-                  ),
-                ),
-                IconButton(
-                  onPressed: () => setState(() {
-                    initialPoints.clear();
-                    snapImage = null;
-                  }),
-                  icon: Icon(Icons.layers_clear, color: selectedColor),
-                ),
-              ],
-            ),
-          )
-        : Container();
-  }
-
   Widget _backgroundCanvas() => BackgroundCanvas(
         onPanDowN: _onPanDown,
         onPanUpdatE: _onPanUpdate,
@@ -193,9 +167,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
         strokeWidth: strokeWidth,
       );
 
-  void _onPanDown(DrawingArea area) {
-    setState(() => initialPoints.add(area));
+  void _clearCanvas() {
+    initialPoints.clear();
+    snapImage = null;
+    setState(() {});
   }
+
+  void _changeStrokeWidth(double val) => setState(() => strokeWidth = val);
+
+  void _onPanDown(DrawingArea area) => setState(() => initialPoints.add(area));
 
   void _onPanUpdate(DrawingArea area) {
     setState(() => initialPoints.add(area));
