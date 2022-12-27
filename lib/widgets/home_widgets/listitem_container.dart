@@ -6,11 +6,10 @@ import 'package:personal_notepad/models/my_note.dart';
 import 'package:personal_notepad/screens/details_screen.dart';
 import 'package:personal_notepad/widgets/common_widgets/format_image.dart';
 
-// ignore: must_be_immutable
 class ListItemContainer extends StatelessWidget {
   ListItemContainer({Key? key, required this.product}) : super(key: key);
   final MyNote product;
-  DateFormat dateFormat = DateFormat("HH:mm    dd-MM-yyyy");
+  final DateFormat dateFormat = DateFormat("HH:mm    dd-MM-yyyy");
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +54,10 @@ class ListItemContainer extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3,
                         style: GoogleFonts.cinzel(
-                          textStyle: TextStyle(color: textColor, fontSize: 13,letterSpacing: 1.4),
+                          textStyle: TextStyle(
+                              color: textColor,
+                              fontSize: 13,
+                              letterSpacing: 1.4),
                         ),
                       ),
                     ],
@@ -67,7 +69,8 @@ class ListItemContainer extends StatelessWidget {
                         width: 120,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(30),
-                          child: Image.file(formatImage(product.imageDir!), fit: BoxFit.cover),
+                          child: Image.file(formatImage(product.imageDir!),
+                              fit: BoxFit.cover),
                         ),
                       )
                     : Container(),

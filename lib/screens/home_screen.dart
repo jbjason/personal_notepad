@@ -30,9 +30,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 class FloatingButtonAdd extends StatelessWidget {
-  const FloatingButtonAdd({
-    Key? key,
-  }) : super(key: key);
+  const FloatingButtonAdd({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
