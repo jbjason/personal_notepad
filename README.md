@@ -1,4 +1,4 @@
-# Personal Notepad
+# Personal Notepad (with Hive local databse)
 
 <img width=30% height=14% src="https://user-images.githubusercontent.com/62088928/199103383-3e9877ee-5499-415e-a8a2-47fd8571f80d.jpg">   <img width=30% height=14% src="https://user-images.githubusercontent.com/62088928/199103473-b9afdc1c-8bef-48f7-99e8-e2f972f60002.jpg"> <img width=30% height=14% src="https://user-images.githubusercontent.com/62088928/199103578-2f532775-4ded-4798-979a-9158dd650a75.jpg">
 
