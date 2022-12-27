@@ -66,7 +66,7 @@ class BackgroundCanvas extends StatelessWidget {
             onPanUpdatE(area);
           }
         },
-        onPanEnd: (_) => onPanEnD,
+        onPanEnd: (_) => onPanEnD(),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: CustomPaint(

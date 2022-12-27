@@ -7,13 +7,13 @@ import 'package:personal_notepad/widgets/details_widgets/details_button/gallery_
 import 'package:personal_notepad/widgets/details_widgets/image_preview.dart';
 
 class ImageSourceButtons extends StatelessWidget {
-  const ImageSourceButtons(
-      {Key? key,
-      required this.enableIsPaint,
-      required this.captureImage,
-      this.image,
-      required this.isPaint})
-      : super(key: key);
+  const ImageSourceButtons({
+    Key? key,
+    required this.enableIsPaint,
+    required this.captureImage,
+    required this.isPaint,
+    this.image,
+  }) : super(key: key);
   final Function enableIsPaint;
   final Function captureImage;
   final File? image;
@@ -30,7 +30,7 @@ class ImageSourceButtons extends StatelessWidget {
             children: [
               //  Paint Button
               InkWell(
-                onTap: () => enableIsPaint,
+                onTap: () => enableIsPaint(),
                 child: AllowPaintAndTextButton(isPaint: isPaint),
               ),
               // Gallery Button

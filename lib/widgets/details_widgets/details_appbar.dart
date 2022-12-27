@@ -48,7 +48,7 @@ class DetailsAppBar extends StatelessWidget {
           const Spacer(),
           // Save Icon
           TextButton(
-            child: Image.asset('assets/save_icon48.png'),
+            child: Icon(Icons.save_outlined),
             onPressed: () async {
               if (titleController.text.trim().isEmpty) {
                 ScaffoldMessenger.of(context)

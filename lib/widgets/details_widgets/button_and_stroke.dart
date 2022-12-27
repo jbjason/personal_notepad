@@ -38,7 +38,7 @@ class ButtonAndStroke extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () => clearCanvas,
+                  onPressed: () => clearCanvas(),
                   icon: Icon(Icons.layers_clear, color: selectedColor),
                 ),
               ],
